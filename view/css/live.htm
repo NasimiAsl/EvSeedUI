@@ -1,0 +1,230 @@
+<style id="live_css">
+    *,
+    body {
+        font-family: Open Sans, sans-serif;
+    }
+
+
+
+    .rot90 {
+        -webkit-transform: rotate3d(0, 0, 1, 90deg);
+        transform: rotate3d(0, 0, 1, 90deg);
+    }
+
+    .rot45 {
+        -webkit-transform: rotate3d(0, 0, 1, 45deg);
+        transform: rotate3d(0, 0, 1, 45deg);
+    }
+
+    .rotn90 {
+        -webkit-transform: rotate3d(0, 0, 1, -90deg);
+        transform: rotate3d(0, 0, 1, -90deg);
+    }
+
+    .ta-j {
+        text-align: justify;
+    }
+
+
+    .icon {
+        font-family: 'Material Symbols Outlined' !important;
+        font-weight: normal;
+        font-style: normal;
+        display: inline-block;
+        line-height: 1;
+        text-transform: none;
+        letter-spacing: normal;
+        word-wrap: normal;
+        white-space: nowrap;
+        direction: ltr;
+        /* Support for all WebKit browsers. */
+        -webkit-font-smoothing: antialiased;
+        /* Support for Safari and Chrome. */
+        text-rendering: optimizeLegibility;
+        /* Support for Firefox. */
+        -moz-osx-font-smoothing: grayscale;
+        /* Support for IE. */
+        font-feature-settings: 'liga';
+    }
+
+
+    input[type="range"] {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 15px;
+        border-radius: 3px;
+        overflow: hidden;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+    }
+
+    input[type="range"]:hover {
+        opacity: 1;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 12px;
+        position: relative;
+        border-radius: 3px;
+        height: 12px;
+        background: $$prm;
+        cursor: pointer;
+    }
+
+
+
+    @-webkit-keyframes slide1 {
+
+
+        100% {
+
+            left: -80%;
+        }
+    }
+
+    @keyframes slide1 {
+
+
+        100% {
+
+            left: -80%;
+        }
+    }
+
+    .slide1 {
+        -webkit-animation-name: slide1;
+        animation-name: slide1;
+    }
+
+
+    @-webkit-keyframes slide0 {
+
+        0% {
+            left: -80%;
+        }
+
+        100% {
+            left: 0%;
+        }
+    }
+
+    @keyframes slide0 {
+
+        0% {
+            left: -80%;
+        }
+
+        100% {
+            left: 0%;
+        }
+    }
+
+    .slide0 {
+        -webkit-animation-name: slide0;
+        animation-name: slide0;
+    }
+
+    body {
+        overflow: hidden;
+        padding: 0px;
+        margin: 0px;
+        border: none;
+        background-color: #ffffff   !important;
+    }
+
+    .fa > * {
+  flex: 1 1 auto;
+}
+
+
+ 
+
+     
+
+
+   
+ 
+ 
+
+    .sld::-webkit-scrollbar {
+  height: 2px;              /* height of horizontal scrollbar ← You're missing this */
+  width: 2px; 
+  display: none;              /* width of vertical scrollbar */
+  border: 1px solid #d5d5d5;
+}
+
+ 
+ 
+
+
+ 
+  
+</style>
+<link href="css/main.css"  onload="setTimeout(function(){ first('#l1p').innerHTML = '';},10);" rel="stylesheet">
+/// background script
+<script>
+
+    function liveCss_hover(name, idel, hover) {
+
+        var d = null;
+        if (document.getElementById(name)) d = document.getElementById(name);
+        else {
+            d = document.createElement('style');
+            document.head.appendChild(d);
+        }
+        d.id = name;
+        d.innerHTML = `
+      .`+ name + ` {
+        `+ idel + `
+      }
+      .`+ name + `:hover {
+        `+ hover + `
+      }
+    `;
+
+    }
+
+    function liveCssShow(name) {
+        liveCss_hover(name, '', 'display:none');
+    }
+
+    function liveCssHide(name) {
+        liveCss_hover(name, 'display:none', '');
+    }
+
+    function showElement(name) {
+        first(name).classList.remove('hdn-i');
+
+    }
+    function hideElement(name) {
+        first(name).classList.add('hdn-i');
+    }
+
+
+    function makeColor(n, c) {
+        return `.xxx ,.xxx-h:hover ,.xxx-a:active {  background-color: #yyy;   }
+        .xxx-h:hover,.xxx-t-h:hover{ cursor: pointer;}
+        .xxx-t,.xxx-t-h:hover{ color: #yyy ;}
+        .xxx-b,.xxx-b-h:hover{ border-color: #yyy ;}
+        .xxx-i ,.xxx-h-i:hover ,.xxx-a-i:active {  background-color: #yyy !important;   }
+        .xxx-h-i:hover,.xxx-t-h-i:hover{ cursor: pointer !important; }
+        .xxx-t-i,.xxx-t-h-i:hover{ color: #yyy !important;}
+        .xxx-b-i,.xxx-b-h-i:hover{ border-color: #yyy !important;} 
+        
+        `.replaceAll('xxx', n).replaceAll('#yyy', c);
+    }
+
+    first('#live_css').innerHTML +=
+        makeColor('mred', '$$mred') +
+        makeColor('grayDark', '$$grayDark') +
+        makeColor('grayLight', '$$grayLight')
+
+        ;
+
+
+
+</script>

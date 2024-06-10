@@ -1,0 +1,45 @@
+<script>
+    $$_chcil = "$$chclick";
+
+    $$_midval = "$$txmidval" == "$$" + "txmidval" ? "" : "$$txmidval";
+
+    $$_defval = "$$chval" == "$$" + "chval" ? "true" : "$$chval";
+     
+
+</script>
+/// main content
+<div class="fs-00 op1 $$hrcss  ml-0025 mr-0025 h-00 bt-i-01 c-b-iblack "></div>
+
+<div onmouseenter="$$hover" onclick="$$click" class="p-0005 Row key_$$key  c-hwgray2  $$mncss pt-00125 pb-00125 f f-r f-ac f-cc f-ja f-nw">
+
+    <div style="background-color:$$color;max-width:20px; max-height: 20px; min-width: 20px;min-height: 20px;"
+        class="ml-005 shdp2 rad-50 $$hideColor val_color   owf  ">
+
+    </div>
+    <div class="f-i11 p-0025 w-auto $$ttl fl f-nw f-r w-mn-04">
+        $$title
+    </div>
+    <div
+        class="f-i11 p-00125 ml-005 mr-005 w-full f f-r f-at f-ct f-jb ba-i-01 rad-03 c-b-iwgray p-0025 $$hideText fl f-nw f-r w-mn-p50">
+        <input type="text" onkeyup="var value = this.value;$$keyUp;" class="w-full ba-i-01 c-b-itrans    cwhite "
+            value="$$textValue" />
+    </div>
+    <div style="text-align: right;" class="w-p60 fs-03 f-i11 fl f-je f-r f-nw  midval $$mid">
+        <dy params="{vtext:$$_midval}">
+            $$vtext
+        </dy>
+    </div>
+    <div class=" $$check">
+        <loader path="/Y1Sport/Tabs/" page="Check" params="{value:$$_defval,cil:$$_chcil}">
+
+        </loader>
+    </div>
+    <div class="icon $$next c-t-hgray fs-05 mr-005">
+        navigate_next
+    </div>
+</div>
+ 
+/// background script
+<script>
+
+</script>

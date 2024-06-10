@@ -1,0 +1,163 @@
+ 
+<div >
+    <loader path="/EvSeed/Tabs/" page="tabTitle" 
+        params="{title:'Upload your PDF template ! ',desc:'Use the download PDF function to download the Seed Balls PDF template, simply drag and drop your art work.'}">
+    </loader>
+</div>
+<div onmouseenter="return;showCam('2~Body Logo')" class="rt c-t-hgray c-hwhite blk12-t f f-at f-ct f-jb f-c p-0025">
+    <div class="f-center f-c rad-05 ba-i-02 c-b-i-hgray   p-0025" style="border-color: #121212aa;">
+        <div class="fnt-b">
+            Drag & Drop Your Artwork
+        </div>
+        <div class="icon fs-08 ">
+            Upload
+        </div>
+    </div>
+    <iframe id="frame_$$TID" frameBorder="0" style="cursor: pointer;" src="$$fileApi/submit/categories?upload__$$TIDpart_extpdf!"
+        class="op5 c-htrans ab l-00 t-00 w-full h-full upload__$$TIDpart_extpdf">
+    </iframe>
+</div>
+
+<div class="f-center f-r" style="zoom: 0.35;">
+    <canvas width="1024" height="1024" class="pdfrender">
+
+    </canvas>
+    <div onclick="clearCover();" class="icon ml-005 c-tblack fs-15 rad-50 c-t-hred ">
+        delete
+    </div>
+</div>
+/// background script
+<script>
+
+    function clearCover() {
+        var canvas = first('.pdfrender');
+        var context = canvas.getContext('2d');
+
+        design.pdf = null;
+        
+
+        saveDesign();
+
+
+        if( first('#frame_$$TID') && first('#frame_$$TID').contentWindow)
+        first('#frame_$$TID').contentWindow.location.reload();
+
+
+
+        context.clearRect(0, 0, 2048, 2048);
+
+        _meshRef['1~Box001'][0].material.setTexture('txtRef_1', new BABYLON.Texture('/images/none.svg', main3D.scene));
+
+    }
+
+    function upload__$$TIDpart_extpdf(d) {
+        console.log(d);
+
+        
+
+        design.pdf = db_api_file + d; 
+
+        saveDesign();
+        
+        
+
+
+        ShowPdf(db_api_file + d, function (im) {
+           
+            _meshRef['1~Box001'][0].material.setTexture('txtRef_1', new BABYLON.Texture(im.src, main3D.scene));
+            first('.waitDesign').classList.add('hdn-i');
+
+            first('#frame_$$TID').contentWindow.location.reload();
+        });
+
+    }
+
+
+    ShowPdf = function (u, f) {
+
+        first('.waitDesign').classList.remove('hdn-i');
+
+        var PDFJS = pdfjsLib;
+
+        PDFJS.GlobalWorkerOptions.workerSrc = '/engine/pdfworker.js'
+        try {
+            var loadingTask = PDFJS.getDocument(u);
+            loadingTask.promise.then(function (pdf) { 
+
+                pdf.getPage(1).then(function (page) {
+
+                    var scale = 1.5;
+                    var viewport = page.getViewport({ scale: scale, });
+                    // Support HiDPI-screens.
+                    var outputScale = 5;
+
+                    var canvas = first('.pdfrender');
+                    var context = canvas.getContext('2d');
+
+                    var width = 1024, height = 1024;
+                    canvas.width = Math.floor(viewport.width * outputScale);
+                    canvas.height = Math.floor(viewport.height * outputScale);
+                    canvas.style.width = Math.floor(256) + "px";
+                     canvas.style.height = Math.floor(256) + "px";
+
+                    width = canvas.width;
+                    height = canvas.height;
+
+
+                    var transform = [outputScale, 0, 0, outputScale, 0, 0];
+
+                    var renderContext = {
+                        canvasContext: context,
+                        transform: transform,
+                        viewport: viewport
+                    };
+
+                    page.render(renderContext);
+
+                    var img = document.createElement("img");
+                    img.onload = function () {
+
+                        var cv = document.createElement("canvas");
+                        cv.width = 4096;
+                        cv.height = 4096;
+
+                        var cx = cv.getContext('2d');
+
+                        cx.clearRect(0, 0, 4096, 4096);
+
+                        var w = 4096;
+                        var cw = 0.094;
+                        var ch = 0.089;
+
+                        cx.drawImage(img, width * cw, height * ch, width * (1. - 2. * cw), height * (1 - 2. * ch),
+                            w * 0.45, w * 0.25, w * 0.31, w * 0.31);
+
+                        var img1 = document.createElement("img");
+                        img1.onload = function () {
+
+                            f(img1);
+
+                        }
+                        setTimeout(function () {
+                            img1.src = cv.toDataURL("image/png");
+                        }, 50);
+
+
+                    }
+                    setTimeout(function () {
+                        img.src = canvas.toDataURL("image/jpeg", 0.8);
+                    }, 500);
+
+
+                });
+
+            });
+        } catch (ex) {
+
+        }
+    }
+
+
+
+
+</script>

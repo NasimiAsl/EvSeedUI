@@ -1,0 +1,455 @@
+<script>
+
+    /*
+    
+    DR03RHT	Right	0 - "DR03 RHT"	42592826654914
+            1 - "DR03 RHT - Pinky or Thumb Text"	42592826654914,42592826687682,42592826720450
+            2 - "DR03 RHT - Pinky and Thumb Text"	
+    DR03LHT	Left	0 - "DR03 LHT"	
+            1 - "DR03 LHT - Pinky or Thumb Text"	42592827637954,42592827670722,42592827703490
+            2 - "DR03 LHT - Pinky and Thumb Text"	
+    AD21RHT	Right 42592826753218,42592826785986,42592826818754
+            2 - "AD21 RHT - Pinky and Thumb Text"	
+    AD21LHT	Left 42592827343042,42592827375810,42592827408578
+            2 - "AD21 LHT - Pinky and Thumb Text"	
+    BK11RHT	Right 42592826949826,42592826982594,42592827015362
+            2 - "BK11 RHT - Pinky and Thumb Text"	
+    BK11LHT	Left 42592827441346,42592827474114,42592827506882
+            2 - "BK11 LHT - Pinky and Thumb Text"	
+    RA08RHT	Right 42592827048130,42592827080898,42592827113666
+            2 - "RA08 RHT - Pinky and Thumb Text"	
+    RA08LHT	Left 42592827736258,42592827769026,42592827801794
+            2 - "RA08 LHT - Pinky and Thumb Text"	
+
+    SO01RHT	Right 42592827146434,42592827179202,42592827211970
+            2 - "SO01 RHT - Pinky and Thumb Text"	
+    SO01LHT	Left 42592827834562,42592827867330,42592827900098
+            2 - "SO01 LHT - Pinky and Thumb Text"	
+
+    DLH42RHT Right 	42592827244738,42592827277506,42592827310274
+             
+    DLH42LHT Left 42592827539650,42592827572418,42592827605186 
+
+
+             const data = {
+                form_type: "product",
+                utf8: "✓",
+                id: 42592826654914,
+                quantity: 1,
+                note: "Hello World",
+                properties: {
+                    "Order ID": "a778e0fb-bb77-4e78-b01e-f421b55fddd8",
+                    "Design ID": "082474",
+                    "Stitching": "Cool Grey",
+                    "Palm": "Royal Blue",
+                    "Script Logo": "Black",
+                    "Wrist Logo- Shadow": "Navy Blue",
+                    "Wrist Logo- Main": "Red",
+                    "Palm Logo": "Standard Palm Logo Stamp",
+                    "Wrist Logo- Outline": "White",
+                    "Wrist Pad": "Classic Soft Goat's Fur",
+                    "One / Two Piece Wrist": "One Piece Wrist",
+                    "Embroidery: Pinky": "Yes",
+                    "Embroidery: Thumb": "Yes"
+                }
+            };
+    */
+
+    $$data = {
+        leftRightHand: `<span class='c-tred'>NOTE:</span>HEADS UP! WE LOVE LEFTIES, BUT IN THE DNA CUSTOM BUILD SUITE YOU'LL ONLY SEE GLOVES REPRESENTED IN RHT MODELS. IF YOU'RE A LEFT HANDED THROWER BE SURE TO SELECT LHT OPTION AND YOUR GLOVE WILL BE MADE SPECIFICALLY FOR THE SOUTHPAW. RIGHT HAND THROWERS SHOULD SELECT RHT. EVERY MODEL IS AVAILABLE IN BOTH LHT AND RHT.
+        `
+    };
+
+    $$_firstStep = [
+        { tab: 'A_secStep', image: '/view/images/infield.jpg', title: 'INFIELD' },
+        { tab: 'B_secStep', image: '/view/images/outfield.jpg', title: 'OUTFIELD' },
+        { tab: 'C_secStep', image: '/view/images/firstbase.jpg', title: 'FIRST BASE' },
+        { tab: 'D_secStep', image: '/view/images/catcher.jpg', title: 'CATCHER' }
+    ];
+
+    $$_A_secStep = [
+        { view: '280463', tab: 'sizeStep', size: '11.75,12.75', image: '/view/images/RA08.png', title: 'RA08', desc: 'Our only Dual Welting offering. Medium depth pocket. Versatile enough to be a top performer in the infield or outfield.' },
+        { view: '280468', tab: 'sizeStep', size: '11.25,11.5,11.75,12,12.75', image: '/view/images/DR03.png', title: 'DR03', desc: 'Medium depth pocket, single finger welting. Ideal for Pitchers and Versatile Infielders.' },
+        { view: '280451', tab: 'sizeStep', size: '11.25,11.5,11.75,12', image: '/view/images/SO01.png', title: 'SO01', desc: 'Our lightest weight model with the most shallow pocket we offer. The quick exchange specialist.' }
+    ];
+
+    $$_B_secStep = [
+        { view: '280465', tab: 'sizeStep', size: '11.75,12.75', image: '/view/images/DR03.png', title: 'DR03', desc: 'Medium depth pocket, single finger welting. Ideal for Pitchers and Versatile Infielders.' },
+        { view: '280467', tab: 'sizeStep', size: '11.75,12.75', image: '/view/images/RA08.png', title: 'RA08', desc: 'Our only Dual Welting offering. Medium depth pocket. Versatile enough to be a top performer in the infield or outfield.' },
+        { view: '280466', tab: 'sizeStep', size: '11.75,12.75', image: '/view/images/DLH42.png', title: 'DLH42', desc: 'Death to flying objects. Our deepest pocket and longest lengths available for dynamic outfield outfield performance.' }
+    ];
+
+    $$_C_secStep = [
+        { view: '280470', tab: 'sizeStep', size: '12.75', image: '/view/images/AD21.png', title: 'AD21', desc: '1B Mitt with an extra deep pocket and rigid Pinky+ Thumb for maximum scoop-ability and ball control.' },
+    ];
+
+    $$_D_secStep = [
+        { view: '280471', tab: 'sizeStep', size: '32.5,33.5', image: '/view/images/BK11.png', title: 'BK11', desc: 'Professional Grade Catcher\'s Mitt with a perfectly formed pocket and lightweight materials for the perfect frame job.' },
+    ];
+
+</script>
+/// main content
+<div class="fx lock hdn-i t-00 l-00 w-full h-full z10 cwhite op4 f-center c-tgray ">
+    <img src="/images/load.svg" class="w-05 h-05 animated rotating" />
+</div>
+<div class="fx msg hdn-i  animated fadeInUp    t-03 l-p50  w-00 h-00 z10  op4 f-center   ">
+    <div class="cgray  shadow2 w-mn-08 p-0025   rad-05   f f- r f-at f-ct f-jb  ">
+        <div class="w-0125 c-ty1  h-0125 f-center icon fs-09">warning</div>
+        <div class="title f-center mr-005"></div>
+    </div>
+</div>
+<div class="rt cwhite w-full h-full f-center f-c">
+    <img src="/JLgloveUI/images/logo.png" class="api-0011 mb-01 w-04 m-0025" />
+    <img src="/JLgloveUI/images/logo.png" class="fx t-00  z05 api-1100  l-00  w-02 m-0025" />
+    <div onclick="backItem()"
+        class="fx backbutt hdn-i animated tada c-hwgray rad-50 t-01125 icon fs-07 bb c-tblack  z05    l-00  w-0125 h-0125 f-center m-01">
+        arrow_back
+    </div>
+    <div class="firstStep tabs  animated  f-center f-c w-full ">
+        <div class="bb api-0011 w-full f-center fs-08">CHOOSE YOUR POSITION</div>
+        <div class="bb api-1100 w-full f-center fs-04">CHOOSE YOUR POSITION</div>
+        <div class="mt-00   f-center f-w f-r">
+            <repeater params="$$_firstStep">
+                <div onclick="secStep('$$tab',first('.firstStep'))" class="c-hwgray2 rad-05  mt-005 ">
+                    <div class="api-0011 w-05   m-0025 f f-c f-nw f-at f-ct f-js  ">
+                        <img src='$$image' />
+                        <div class="w-full f-center bb fs-05 mt-005">$$title</div>
+                    </div>
+                    <div class="api-1100 w-04   m-0025    f f-c f-nw f-at f-ct f-js ">
+                        <img src='$$image' />
+                        <div class="w-full f-center bb fs-05 mt-005">$$title</div>
+                    </div>
+                </div>
+            </repeater>
+        </div>
+    </div>
+    <div class="A_secStep tabs animated hdn-i f-center f-c w-full ">
+
+        <div onclick="backItem()" class="bb api-0011 w-full f-center  fs-08">
+            INFIELD GLOVES</div>
+        <div onclick="backItem()" class="bb api-1100 w-full f-center fs-04">
+            INFIELD GLOVES</div>
+        <div class="mt-00   f-center f-w f-r">
+            <repeater params="$$_A_secStep">
+                <div onclick="secStep('$$tab',first('.A_secStep'),'$$size','$$title','INFIELD','$$view')"
+                    class=" rad-05 ml-01 mr-01 mt-0025 ">
+                    <div class="api-0011 w-05   m-0025 f f-c f-nw f-at f-ct f-js  ">
+                        <img src='$$image' />
+                        <div class="w-full f-center bb fs-05 grayDark-t mt-00">$$title</div>
+                        <div class="w-full h-02 mb-0025  ta-j fs-03  grayLight-t mt-00125">$$desc</div>
+                        <div class="f-center mt-00125">
+                            <input type="button"
+                                class="ba-i-01 rad-03 mred c-hblack c-twhite c-b-itrans p-0025 pl-01 pr-01   "
+                                value="CHOOSE GLOVE" />
+                        </div>
+                    </div>
+                    <div class="rt api-1100   w-04 mred c-hblack c-twhite rad-20  m-0025    f f-c f-nw f-at f-ct f-js ">
+                        <div class="ab t-00 l-00 cwhite w-full h-02"></div>
+                        <div class="ab t-03 rad-50 l-n0125 op1 rot45 mred w-03 h-02"></div>
+                        <img src='$$image' class="ba-i-02 mred-b-i rt z02 t-n002 rad-50 cwhite" />
+                        <div class="w-full f-center bb fs-05 mt-0025 mb-0025">$$title</div>
+                    </div>
+                </div>
+            </repeater>
+        </div>
+
+    </div>
+    <div class="B_secStep tabs animated hdn-i f-center f-c w-full ">
+
+        <div onclick="backItem()" class="bb api-0011 w-full f-center  fs-08">
+            OUTFIELD GLOVES</div>
+        <div onclick="backItem()" class="bb api-1100 w-full f-center fs-04">
+            OUTFIELD GLOVES</div>
+        <div class="mt-00   f-center f-w f-r">
+            <repeater params="$$_B_secStep">
+                <div onclick="secStep('$$tab',first('.B_secStep'),'$$size','$$title','OUTFIELD','$$view')"
+                    class=" rad-05 ml-01 mr-01 mt-0025 ">
+                    <div class="api-0011 w-05   m-0025 f f-c f-nw f-at f-ct f-js  ">
+                        <img src='$$image' />
+                        <div class="w-full f-center bb fs-05 grayDark-t mt-00">$$title</div>
+                        <div class="w-full h-02 mb-0025  ta-j fs-03  grayLight-t mt-00125">$$desc</div>
+                        <div class="f-center mt-00125">
+                            <input type="button"
+                                class="ba-i-01 rad-03 mred c-hblack c-twhite c-b-itrans p-0025 pl-01 pr-01   "
+                                value="CHOOSE GLOVE" />
+                        </div>
+                    </div>
+                    <div class="rt api-1100   w-04 mred c-hblack c-twhite rad-20  m-0025    f f-c f-nw f-at f-ct f-js ">
+                        <div class="ab t-00 l-00 cwhite w-full h-02"></div>
+                        <div class="ab t-03 rad-50 l-n0125 op1 rot45 mred w-03 h-02"></div>
+                        <img src='$$image' class="ba-i-02 mred-b-i rt z02 t-n002 rad-50 cwhite" />
+                        <div class="w-full f-center bb fs-05 mt-0025 mb-0025">$$title</div>
+                    </div>
+                </div>
+            </repeater>
+        </div>
+
+    </div>
+    <div class="C_secStep tabs animated hdn-i f-center f-c w-full ">
+
+        <div onclick="backItem()" class="bb api-0011 w-full f-center  fs-08">
+            FIRST BASE GLOVES</div>
+        <div onclick="backItem()" class="bb api-1100 w-full f-center fs-04">
+            FIRST BASE GLOVES</div>
+        <div class="mt-00   f-center f-w f-r">
+            <repeater params="$$_C_secStep">
+                <div onclick="secStep('$$tab',first('.C_secStep'),'$$size','$$title','FIRST BASE','$$view')"
+                    class=" rad-05 ml-01 mr-01 mt-0025 ">
+                    <div class="api-0011 w-05   m-0025 f f-c f-nw f-at f-ct f-js  ">
+                        <img src='$$image' />
+                        <div class="w-full f-center bb fs-05 grayDark-t mt-00">$$title</div>
+                        <div class="w-full h-02 mb-0025  ta-j fs-03  grayLight-t mt-00125">$$desc</div>
+                        <div class="f-center mt-00125">
+                            <input type="button"
+                                class="ba-i-01 rad-03 mred c-hblack c-twhite c-b-itrans p-0025 pl-01 pr-01   "
+                                value="CHOOSE GLOVE" />
+                        </div>
+                    </div>
+                    <div class="rt api-1100   w-04 mred c-hblack c-twhite rad-20  m-0025    f f-c f-nw f-at f-ct f-js ">
+                        <div class="ab t-00 l-00 cwhite w-full h-02"></div>
+                        <div class="ab t-03 rad-50 l-n0125 op1 rot45 mred w-03 h-02"></div>
+                        <img src='$$image' class="ba-i-02 mred-b-i rt z02 t-n002 rad-50 cwhite" />
+                        <div class="w-full f-center bb fs-05 mt-0025 mb-0025">$$title</div>
+                    </div>
+                </div>
+            </repeater>
+        </div>
+
+    </div>
+    <div class="D_secStep tabs animated hdn-i f-center f-c w-full ">
+
+        <div onclick="backItem()" class="bb api-0011 w-full f-center  fs-08">
+            CATCHER GLOVES</div>
+        <div onclick="backItem()" class="bb api-1100 w-full f-center fs-04">
+            CATCHER GLOVES</div>
+        <div class="mt-00   f-center f-w f-r">
+            <repeater params="$$_D_secStep">
+                <div onclick="secStep('$$tab',first('.D_secStep'),'$$size','$$title','CATCHER','$$view')"
+                    class=" rad-05 ml-01 mr-01 mt-0025 ">
+                    <div class="api-0011 w-05   m-0025 f f-c f-nw f-at f-ct f-js  ">
+                        <img src='$$image' />
+                        <div class="w-full f-center bb fs-05 grayDark-t mt-00">$$title</div>
+                        <div class="w-full h-02 mb-0025  ta-j fs-03  grayLight-t mt-00125">$$desc</div>
+                        <div class="f-center mt-00125">
+                            <input type="button"
+                                class="ba-i-01 rad-03 mred c-hblack c-twhite c-b-itrans p-0025 pl-01 pr-01   "
+                                value="CHOOSE GLOVE" />
+                        </div>
+                    </div>
+                    <div class="rt api-1100   w-04 mred c-hblack c-twhite rad-20  m-0025    f f-c f-nw f-at f-ct f-js ">
+                        <div class="ab t-00 l-00 cwhite w-full h-02"></div>
+                        <div class="ab t-03 rad-50 l-n0125 op1 rot45 mred w-03 h-02"></div>
+                        <img src='$$image' class="ba-i-02 mred-b-i rt z02 t-n002 rad-50 cwhite" />
+                        <div class="w-full f-center bb fs-05 mt-0025 mb-0025">$$title</div>
+                    </div>
+                </div>
+            </repeater>
+        </div>
+
+    </div>
+    <div class="sizeStep tabs animated hdn-i f f-ac f-cc f-jc f-c w-full ">
+
+        <div onclick="backItem()" class="bb w-full f-center fs-04">
+            <img class="w-03 h-03 mb-005 finalImage" src="$$" />
+            <div class="f f-c ">
+                <div class="fs-08 bb ttl "></div>
+                <div class="fs-04 bb ttl2 "></div>
+
+            </div>
+        </div>
+        <div class="w-full   f-center f-r f-nw">
+
+            <div class=" w-mn-09  w-mx-17  at-j fs-03   c-tgray m-0025     ">
+                <p>
+                    <dy params="{data:$$data.leftRightHand}">
+                        $$data
+                    </dy>
+                </p>
+            </div>
+        </div>
+
+        <div class="w-full mt-0025 f f-r f-nw f-at f-ct f-jc">
+
+            <div class=" listSize  f f-r f-at f-ct f-js f-w">
+                <div class="w-full sizeTitle">
+                    Size <span class="c-tred">*</span>
+                </div>
+                <div onclick="selItem(this )"
+                    class="rad-03 w-015  m-00125 p-0025 pl-005 pr-005 c-hblack c-twhite f-center cgray">
+                    11.25"
+                </div>
+                <div onclick="selItem(this )"
+                    class="rad-03 w-015   m-00125 p-0025 pl-005 pr-005 c-hblack c-twhite f-center cgray">
+                    11.5"
+                </div>
+                <div onclick="selItem(this )"
+                    class="rad-03 w-015   m-00125 p-0025 pl-005 pr-005 c-hblack c-twhite f-center cgray">
+                    11.75"
+                </div>
+                <div onclick="selItem(this )"
+                    class="rad-03 m-00125 w-015   p-0025 pl-005 pr-005 c-hblack c-twhite f-center cgray">
+                    12"
+                </div>
+                <div onclick="selItem(this )"
+                    class="rad-03  m-00125 w-015   p-0025 pl-005 pr-005 c-hblack c-twhite f-center cgray">
+                    12.75"
+                </div>
+                <div onclick="selItem(this )"
+                    class="rad-03  m-00125 w-015   p-0025 pl-005 pr-005 c-hblack c-twhite f-center cgray">
+                    13"
+                </div>
+                <div onclick="selItem(this )"
+                    class="rad-03  m-00125 w-015   p-0025 pl-005 pr-005 c-hblack c-twhite f-center cgray">
+                    32.5"
+                </div>
+                <div onclick="selItem(this )"
+                    class="rad-03  m-00125 w-015   p-0025 pl-005 pr-005 c-hblack c-twhite f-center cgray">
+                    33.5"
+                </div>
+            </div>
+            <div class="w-02">
+
+            </div>
+            <div class=" w-04">
+                <div class="fs-03 f f-nw f-r ">
+                    Throwing Hand <span class="c-tred">*</span>
+                </div>
+                <div onclick="selItem(this )" class="rad-03  m-00125  p-0025 pl-01 pr-01 c-hblack c-twhite cgray">
+                    Left
+                </div>
+                <div onclick="selItem(this )" class="rad-03  m-00125  p-0025 pl-01 pr-01 c-hblack c-twhite cgray">
+                    Right
+                </div>
+            </div> 
+        </div>
+        <div class="f-center mt-005">
+            <input type="button" onclick="makeDesign()"
+                class="ba-i-01 bb fs-04 mred rad-03 c-hblack c-twhite c-b-itrans p-0025 pl-01 pr-01   "
+                value="PROCEED" />
+        </div> 
+    </div> 
+</div>
+
+/// background script
+<script>
+    var lastItem = [];
+    function selItem(tab) {
+
+        all('div', function (at) {
+            at.classList.remove('c-iblack');
+
+        }, function () {
+            tab.classList.add('c-iblack');
+
+            if ('left,right'.indexOf(tab.innerText.trim().toLocaleLowerCase()) != -1) {
+                _sel_mode = tab.innerText.trim().toLocaleLowerCase();
+            } else _sel_size = tab.innerText.trim().toLocaleLowerCase();
+
+        }, null, tab.parentNode);
+    }
+    function backItem() {
+        item = lastItem.pop();
+
+        if (item) {
+            all('.tabs', function (at) {
+                at.classList.remove('fadeOutUp');
+                at.classList.remove('fadeInUp');
+
+
+            }, function () {
+
+                all('.tabs', function (at) {
+                    at.classList.add('hdn-i');
+                });
+
+
+                item.classList.remove('fadeOutUp');
+                item.classList.add('fadeInUp');
+                item.classList.remove('hdn-i');
+
+
+            });
+        }  
+
+        if(lastItem.length<2)
+            first('.backbutt').classList.add('hdn-i');
+
+         
+
+    }
+    var _sel_group = '';
+    var _sel_ttl = '';
+    var _sel_view = '';
+    var _sel_size = '';
+    var _sel_mode = '';
+
+    function secStep(tab, item, size, ttl, group, view) {
+
+        _sel_group = group;
+        _sel_ttl = ttl;
+        _sel_view = view;
+        _sel_size = '';
+        _sel_mode = '';
+
+        first('.backbutt').classList.remove('hdn-i');
+
+
+        all('.tabs', function (at) {
+            at.classList.add('fadeOutUp');
+        });
+
+        if (size) {
+            all('div', function (at) {
+                if ((',' + size + ',').indexOf(',' + at.innerText.trim().replace('"', '') + ',') != -1) {
+                    at.classList.remove('hdn-i');
+                } else at.classList.add('hdn-i');
+
+            }, function () {
+                first('.sizeTitle').classList.remove('hdn-i');
+            }, null, first('.listSize'));
+
+        }
+
+        if (ttl) {
+            first('.finalImage').src = '/view/images/' + ttl + '.png';
+            first('.ttl').innerText = ttl;
+            first('.ttl2').innerText = group;
+        }
+
+
+        setTimeout(() => {
+
+            lastItem.push(item);
+
+            all('.tabs', function (at) {
+                at.classList.add('hdn-i');
+            }, function () {
+                first('.' + tab).classList.remove('fadeOutUp');
+                first('.' + tab).classList.add('fadeInUp');
+                first('.' + tab).classList.remove('hdn-i');
+            });
+        }, 300);
+
+    }
+
+    function makeDesign() {
+
+        if (_sel_size != '' && _sel_mode != '') {
+            first('.lock').classList.remove('hdn-i');
+            location = '/view/?' + _sel_view + '~Size|' + _sel_size.replace('"', '') + ',Throwing Hand|' + _sel_mode + ',Category|' + _sel_group + '-' + _sel_ttl+'~JlgloveUI';
+        } else {
+            first('.msg .title').innerText = 'Please select size and throwing!';
+            first('.msg ').classList.remove('hdn-i');
+            setTimeout(function () {
+                first('.msg ').classList.add('hdn-i');
+            }, 3500);
+        }
+
+    }
+
+    if (window.parent)
+
+        window.parent.postMessage({ type: 'min' }, "*");
+
+
+</script>

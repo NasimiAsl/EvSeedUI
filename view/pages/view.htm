@@ -1,0 +1,21 @@
+<script>
+  $$_tabs = location.search.split('~')[2];
+</script>
+/// main content
+
+<div class="fx  canload op0 l-00 t-00 z-01 w-full h-full ">
+  <loader page="dy3d" onready="element.model = model;window.main3D = model;  
+  " path="/src/coms/"
+    params="{css:'ab   w-full h-full  l-00 t-00  cwhite', setting:{color:{x:1,y:1,z:1,w:1}},  sceneJsPath:[ 'pages/initView.js']}">
+  </loader>
+</div>
+
+<iloader page="tabs" path="'/'+$$_tabs+'/'">
+
+</iloader>
+/// background script
+ <script>
+   dyHtml.script('/engine/view.js',function(){
+
+   });
+ </script>

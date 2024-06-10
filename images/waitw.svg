@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="200mm"
+   height="200mm"
+   viewBox="0 0 200 200"
+   version="1.1"
+   id="svg5"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2">
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter4990"
+       x="-0.055288642"
+       y="-inf"
+       width="1.1105773"
+       height="inf">
+      <feGaussianBlur
+         stdDeviation="2.4342438"
+         id="feGaussianBlur4992" />
+    </filter>
+  </defs>
+  <ellipse
+     style="opacity:0.873239;fill:none;stroke:#ffffff;stroke-width:1;stroke-linejoin:bevel;stroke-opacity:1;stroke-dasharray:400;stroke-dashoffset:281;fill-opacity:1"
+     id="path351"
+     cx="100"
+     cy="100"
+     rx="64.380951"
+     ry="62.095238" />
+</svg>

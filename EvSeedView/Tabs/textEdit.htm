@@ -1,0 +1,39 @@
+<script>
+
+    
+
+    $$_rows = [
+        { mncss :'maintext  ' , hideText:'ml-0005 ' ,textValue:getText(currMeshPart.split('~')[1]).t ,ttl:'hdn-i',mid:'hdn-i',next:'hdn-i', check: 'hdn-i ' ,keyUp:"applyActionUI('text',first('.mainfont .midval').innerText,value.toUpperCase(),null,{size:currFontSize,y: currTextPosY } )", color: '#000000' , click: " " },
+        { mncss :'mainfont',txmidval:getFont(currMeshPart.split('~')[1]).v , check: 'hdn-i ',ttl:'ml-0025',midval :'Arial', color: '#004846', title: 'Font', 
+        click: "currTextElement =first('.maintext  input'); showPop(this, '.cs_pickFonts',currMeshPart )" },
+        { hideColor:'',check: 'hdn-i ', color: getColor(currMeshPart.split('~')[1]).v, title: 'Color', click: "showPop(this, '.cs_pickColors',currMeshPart )" },
+    ]; 
+
+    $$_rows.push({ mncss: 'hdn-i' }); 
+
+</script>
+/// main content
+<div class="bb pickColor_ttl">
+
+</div>
+<div class="ml-005 mr-005  f f-r f-as f-cs f-jb ">
+    <div class="c-t-hgray2 ba-i-01 c-b-itrans c-b-i-hblack rad-03 p-00125 c-hwgray2  f f-r f-ac f-cc f-js"
+        onclick="backPop('.cs_textEdit')">
+        <div class="icon blk12-t">
+            arrow_back_ios
+        </div>
+        <div class="blk12-t">
+            Back
+        </div>
+    </div>
+    <div class="w-full"></div>
+    
+</div>
+
+<div class="h-mn-10 ">
+    <repeater params="$$_rows">
+        <iloader page="Row" path="/Y1Sport/Tabs/" params="$$repeaterItem">
+
+        </iloader>
+    </repeater>
+</div>

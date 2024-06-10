@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="200mm"
+   height="200mm"
+   viewBox="0 0 200 200"
+   version="1.1"
+   id="svg5"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2">
+    <linearGradient
+       id="linearGradient1231">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="0"
+         id="stop1227" />
+      <stop
+         style="stop-color:#808282;stop-opacity:0.35197368;"
+         offset="1"
+         id="stop1229" />
+    </linearGradient>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter4990"
+       x="-0.055288642"
+       y="-inf"
+       width="1.1105773"
+       height="inf">
+      <feGaussianBlur
+         stdDeviation="2.4342438"
+         id="feGaussianBlur4992" />
+    </filter>
+    <linearGradient
+       xlink:href="#linearGradient1231"
+       id="linearGradient1233"
+       x1="91.470062"
+       y1="83.393829"
+       x2="65.335754"
+       y2="99.727768"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0.72595281,-0.09074251)" />
+  </defs>
+  <path
+     style="opacity:0.873239;fill:url(#linearGradient1233);fill-opacity:1;stroke:none;stroke-width:1;stroke-linejoin:bevel;stroke-dasharray:400;stroke-dashoffset:0;stroke-opacity:1"
+     id="path1203"
+     d="M 66.061703,99.909256 A 34.664249,34.664249 0 0 1 100.72595,65.245007 34.664249,34.664249 0 0 1 135.3902,99.909256" />
+  <ellipse
+     style="opacity:0.873239;fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:0.297225;stroke-linejoin:bevel;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.268421"
+     id="path1203-3"
+     cx="100.00013"
+     cy="99.999855"
+     rx="35.06686"
+     ry="35.498398" />
+</svg>

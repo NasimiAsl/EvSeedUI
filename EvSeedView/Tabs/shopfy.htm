@@ -1,0 +1,45 @@
+<script>
+
+</script>
+/// main content
+<div class="w-mx-20 w-mn-11   row   ShopfyRow f f-at f-ct f-jb">
+    <div class="spec w-p15 indx w-mx-15 ba-i-01 c-b-iwgray2 p-00125 ">
+        $$col1
+    </div>
+    <div class="spec w-p20  rt w-mx-20  ba-i-01 c-b-iwgray2 p-00125 ">
+        <select class="ab indx1 t-00 l-00 w-full h-full ba-i-01 c-b-itrans">
+            <option>XS</option>
+            <option>M</option>
+            <option>L</option>
+            <option>XL</option>
+            <option>XXL</option>
+        </select>
+    </div>
+    <div class="spec w-p35 hdn-i rt w-mx-15 ba-i-01 c-b-iwgray2 p-00125 ">
+        <input  onkeyup="  if(this.value =='')first('div.ab',null,this.parentNode).innerHTML = '*';else first('div.ab',null,this.parentNode).innerHTML = '';"  placeholder="Name" type="text" class="ab indx2 t-00 l-00 w-full h-full ba-i-01 c-b-itrans" />
+        <div class="ab fs-05  z-10 t-00 r-0005 c-tred"> </div>
+    </div>
+    <div class="spec w-p10 rt w-mx-15 ba-i-01 hdn-i c-b-iwgray2 p-00125 ">
+        <input placeholder="Number" type="text" class="ab indx3 t-00 l-00 w-full h-full ba-i-01 c-b-itrans" />
+    </div>
+    <div class="spec w-p15 rt w-mx-05 ba-i-01 c-b-iwgray2 p-00125 "> 
+        <input onkeyup="if(this.value =='')first('div.ab',null,this.parentNode).innerHTML = '*';else first('div.ab',null,this.parentNode).innerHTML = '';" placeholder="Initials" type="text" class="ab indx4 t-00 l-00 w-full h-full ba-i-01 c-b-itrans" />
+        <div class="ab fs-05  z-10 t-00 r-0005 c-tred">*</div>
+    </div>
+    <div  class=" spec  pl-0025 pr-0025 rt  f f-r f-ac f-cc f-ja ba-i-01 c-b-iwgray2  p-00125">
+        <div onclick=" first('input',null,this.parentNode).value = max(1,first('input',null,this.parentNode).value.valueOf()*1-1);getPrice()" 
+        class="fs-04 ab l-00125  c-hwgray w-mn-005  w-005 h-005 owf rad-03 f-center ba-i-01 c-b-iwgray2">-</div>
+        <input placeholder="" onkeydown="getPrice();" value="1" type="text" style="text-align: center;" class=" indx5 w-mx-p50  w-p50  ba-i-01 c-b-itrans" />
+        <div onclick="first('input',null,this.parentNode).value = max(0,first('input',null,this.parentNode).value.valueOf()*1+1);getPrice();" 
+        class="fs-04 ab r-00125  c-hwgray w-mn-005   w-005 h-005 owf rad-03 f-center ba-i-01 c-b-iwgray2">+</div>
+
+    </div>
+    <div onclick="if(confirm('are you Sure about removing this item?')){this.parentNode.remove();updateFleeceRows(); calculatePrice();}"
+     class="spec w-p20 w-mx-15 ba-i-01 f f-r f-ac f-cc f-ja  c-b-iwgray2 p-00125 ">
+        <div class=" icon c-tred fs-05 op3  ">delete</div>
+        <div>
+            delete
+        </div>
+
+    </div>
+</div>

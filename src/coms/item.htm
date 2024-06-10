@@ -1,0 +1,48 @@
+<script>
+    $$_iden = ('$$iden' != '$' + '$iden' ? '$$iden' : '');
+    $$_copy = ('$$copy' != '$' + '$copy' ? '' : 'hdn-i');
+    $$_paste = ('$$paste' != '$' + '$paste' ? '' : 'hdn-i');
+    $$_type = ('$$type' != '$' + '$type' ? '$$type'.valueOf() * 1 : 0);
+    $$_delete = ('$$delete' != '$' + '$delete' ? '' : 'hdn-i' );
+    $$_action = ('$$action' != '$' + '$action' ?'' : 'hdn-i');
+</script>
+/// main content
+<div  id="iden_$$iden"  onmouseover="$$hover;event.stopPropagation();"  onmouseout="$$out;event.stopPropagation();"     title="$$val" onclick="$$click;event.stopPropagation()" oncopy="$$copy;event.stopPropagation()"
+    onpaste="$$paste;event.stopPropagation()" class="rt ns f f-r f-at f-ct f-jb $$css">
+    <div class="fs-05   rad-05 prm-t p-0005   mr-0025  icon  $$ico_css  f-center">
+        $$icon
+    </div>
+    <div class="fs-04 w-full   f owf  f-r f-ac f-cc f-js">
+        <switcher params="{ isaction:$$_action,isdelete:$$_delete, iscopy:$$_copy,ispaste:$$_paste,idn: $$_iden}" oncreate="item=$$_type;">
+            <div title="$$idn">$$text</div>
+            $$next-case
+            <div class="fs-03 c-torg">$$idn</div><input id="inp_$$iden" type="text" readonly="readonly"
+                ondblclick="this.removeAttribute('readonly');" value="$$text"
+                class="$$css c-i-htrans ctrans w-full ba-i-01 c-b-itrans " onkeydown=" 
+             " onkeyup=" var th = this;
+              if(event.keyCode ==13){
+                $$change 
+                
+                th.setAttribute('readonly','readonly');
+               }
+             " />
+            <div class="  ab ns r-00 pt-00125 f f-r f-at f-ct f-je t-00">
+                
+                <div title="action" onclick="$$action ;event.stopPropagation();" id="del_$$iden"
+                    class="   f-center $$isaction    w-005  icon fs-04 c-ttrwhite2 rad-05 c-htrwhite">bolt
+                </div>
+                <div title="delete" onclick="$$delete ;event.stopPropagation();" id="del_$$iden"
+                    class="   f-center $$isdelete   w-005  icon fs-04 c-ttrwhite2 rad-05 c-htrwhite">delete
+                </div>
+            </div> 
+            $$next-case 
+             <div title="$$idn" id="lbl_$$iden"  class="fs-03 rt ns $$css" >
+                $$text <input type="button" title="$$tact1"  onclick="$$act1;event.stopPropagation();" class="icon  ba-i-01 c-b-itrans ctrans w-005 h-005 ctrwhite c-hwhite $$ac1_css" value="disabled_visible" />
+                <input title="$$tact2" type="button" onclick="$$act2;event.stopPropagation();" class="icon ba-i-01 c-b-itrans ctrans w-005 h-005 ctrwhite c-hwhite ml-00125  $$ac2_css" value="cameraswitch" />
+                 <br/> <input title="$$tact3" value="$$txtval"  class="sub  w-05 fs-03 " type="text" id="txt_$$iden" onkeyup="$$act3 ;event.stopPropagation();" />
+             </div>
+
+        </switcher>
+    </div>
+
+</div>

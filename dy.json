@@ -1,0 +1,7 @@
+{
+    "version": "1.00.001",
+    "extension":".htm",
+    "layout":"layout/",
+    "apiPath":"https://EvSeed.haze.tools"
+
+}
