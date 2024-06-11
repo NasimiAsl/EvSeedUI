@@ -1,11 +1,13 @@
- 
-<div >
-    <loader path="/EvSeed/Tabs/" page="tabTitle" 
+
+<div>
+    <loader path="/EvSeed/Tabs/" page="tabTitle"
         params="{title:'Upload your Artwork ',desc:'Use the download PDF function to download the Artwork template, simply upload your Artwork.'}">
     </loader>
 </div>
-<div onmouseenter="return;showCam('2~Body Logo')" class="rt c-t-hgray c-hwhite blk12-t f f-at f-ct f-jb f-c p-0025">
-    <div class="f-center f-c rad-05 ba-i-02 c-b-i-hgray   p-0025" style="border-color: #121212aa;">
+<div onmouseenter="return;showCam('2~Body Logo')"
+    class="rt c-t-hgray c-hwhite blk12-t f f-at f-ct f-jb f-c p-0025">
+    <div class="f-center f-c rad-05 ba-i-02 c-b-i-hgray   p-0025"
+        style="border-color: #121212aa;">
         <div class="fnt-b">
             Drag & Drop Your Logo
         </div>
@@ -13,37 +15,30 @@
             Upload
         </div>
     </div>
-    <iframe id="frame_$$TID" frameBorder="0" style="cursor: pointer;" src="$$fileApi/submit/categories?upload__$$TIDpart_extpdf!"
+    <iframe id="frame_$$TID" frameBorder="0" style="cursor: pointer;"
+        src="$$fileApi/submit/categories?upload__$$TIDpart_extpdf!"
         class="op5 c-htrans ab l-00 t-00 w-full h-full upload__$$TIDpart_extpdf">
     </iframe>
 </div>
+ 
 
-<div class="f-center f-r" style="zoom: 0.35;">
-    <canvas width="1024" height="1024" class="pdfrender">
-
-    </canvas>
-    <div onclick="clearCover();" class="icon ml-005 c-tblack fs-15 rad-50 c-t-hred ">
-        delete
-    </div>
+<div class="rt images f f-r f-w f-ac f-cc f-jc h-02 w-full ">
+        
 </div>
+
+
 /// background script
 <script>
 
     function clearCover() {
-        var canvas = first('.pdfrender');
-        var context = canvas.getContext('2d');
+       
+        design.pdf = null; 
 
-        design.pdf = null;
-        
+        saveDesign();  
 
-        saveDesign();
-
+        first('.images').innerHTML = '';
 
        
-
-
-        context.clearRect(0, 0, 2048, 2048);
-
         _meshRef['1~Box001'][0].material.setTexture('txtRef_1', new BABYLON.Texture('/images/none.svg', main3D.scene));
 
         if( first('#frame_$$TID') && first('#frame_$$TID').contentWindow)
@@ -53,7 +48,7 @@
     }
 
     function upload__$$TIDpart_extpdf(d) {
-        console.log(d);
+         
 
         first('.lock-page').classList.add('hdn-i');
 
@@ -61,9 +56,7 @@
 
         design.pdf = db_api_file + d; 
 
-        saveDesign();
-        
-        
+        saveDesign(); 
 
 
         ShowPdf(db_api_file + d, function (im) {
@@ -75,14 +68,171 @@
 
     }
 
+     function renderPages(pages,size,f){
+
+         
+        
+        var cv = document.createElement("canvas");
+        cv.width = size;
+        cv.height = size;
+
+          var cx = cv.getContext('2d');
+
+         cx.clearRect(0, 0, size, size);
+
+          var w1 = size; 
+
+            function renderPage(page,w,h,rx,ry,r,uv,fn){
+
+                    var scale = 1.0;
+                    var viewport = page.getViewport({ scale: scale, });
+                    // Support HiDPI-screens.
+                    var outputScale = 5;
+
+
+                    var canvas =   document.createElement("canvas");//first('.pdfrender');
+                    var context = canvas.getContext('2d');  
+                   
+                    
+                    const mmToPx = 72 / 25.4; 
+
+                    // [ wbox x , width , wbox y , height ]
+
+                    var wmm = w;
+                    var hmm = h;
+
+                    
+
+                    var mainSize = [wmm * (mmToPx) , hmm * (mmToPx)];  
+
+                   /* if(viewport.viewBox[2] < mainSize[0] || viewport.viewBox[3] < mainSize[1] ){
+
+                        first('.alert .icon').innerHTML = 'info';
+                        first('.alert .text').innerHTML = 'Please upload a PDF with '+wmm+'mm x '+hmm+'mm dimensions.';
+                        first('.alert').classList.remove('hdn-i');
+                        setTimeout(function () { first('.alert').classList.add('hdn-i'); }, 5000);
+
+                        first('.waitDesign').classList.add('hdn-i');
+
+
+                    return ;
+                    }*/
+
+                    var ex = 0.5*(viewport.viewBox[2] -mainSize[0])*outputScale ;
+                    var ey = 0.5*(viewport.viewBox[3] -mainSize[1])*outputScale ;
+
+
+
+
+                    var width = 1024, height = 1024;
+                    canvas.width = Math.floor(viewport.width * outputScale);
+                    canvas.height = Math.floor(viewport.height * outputScale);
+                    canvas.style.width = Math.floor(256) + "px";
+                    canvas.style.height = Math.floor(256) + "px";
+
+                    width = canvas.width;
+                    height = canvas.height;
+
+
+                    var transform = [outputScale, 0, 0, outputScale, 0, 0];
+
+                    var renderContext = {
+                        canvasContext: context,
+                        transform: transform,
+                        viewport: viewport
+                    };
+
+                    page.render(renderContext);
+
+                    var img = document.createElement("img");
+                    img.className = "ba-i-01 c-b-iwgray rad-05  w-015 h-015 m-00125";
+                    img.onload = function () { 
+
+
+                        cx.translate( rx*w1 , ry*w1  );
+                        cx.rotate( r*deg );
+
+                        cx.drawImage(img,
+                            ex, 
+                            ey,
+                           mainSize[0]*outputScale ,
+                           mainSize[1]*outputScale,
+                           w1 * uv[0], w1 *uv[1], w1 * uv[2], w1 * uv[3]);  
+
+                        
+                        cx.rotate( -r*deg );
+                        cx.translate( -rx*w1, -ry*w1 );  
+
+                        
+                        fn();
+
+                    }
+
+                    first('.images').appendChild(img);
+
+                    setTimeout(function () {
+                        img.src = canvas.toDataURL("image/jpeg", 0.8);
+                    }, 100);
+                }
+
+
+                function final(){ 
+
+                    var img1 = document.createElement("img");
+                    img1.className = "ba-i-01 c-b-iwgray rad-05 w-015 h-015 m-00125";
+                   
+                        img1.onload = function () {
+                            f(img1);
+                        }
+
+
+                    // first('.images').appendChild(img1);
+
+                        setTimeout(function () {
+                            img1.src = cv.toDataURL("image/png");
+                        }, 500);
+                    
+                }
+
+                var pageRenderCount = 0;
+
+                first('.images').innerHTML = `<div onclick="clearCover();"
+        class="icon ab r-005 b-0025 ml-005 c-tblack fs-07 rad-50 c-t-hred ">
+        delete
+ </div>`;
+
+                for(var i in pages){
+
+                    var idx = (pages[i]._pageIndex+1).toString() ;
+                    var page_setting = __Data.pages[idx];
+ 
+                    renderPage(pages[i],
+                    page_setting.w,
+                    page_setting.h,
+                    (page_setting.rx ? page_setting.rx: 0.0),
+                    (page_setting.ry ? page_setting.ry: 0.0),
+                    (page_setting.r ? page_setting.r: 0.0),
+                    page_setting.uv,function(){
+
+                        pageRenderCount ++;
+
+                        if(pages.length == pageRenderCount){
+                            final();
+                        }
+
+                    });
+
+                }
+
+  
+            }
+
 
     ShowPdf = function (u, f) {
 
         first('.waitDesign').classList.remove('hdn-i');
 
-        var PDFJS = pdfjsLib;
-
-       
+        var PDFJS = pdfjsLib; 
 
         if(u.toLowerCase().indexOf('.pdf') ==-1 ){
             
@@ -102,112 +252,58 @@
             var loadingTask = PDFJS.getDocument(u);
             loadingTask.promise.then(function (pdf) { 
 
-                pdf.getPage(1).then(function (page) {
+                // final
+                // for  page 1 - page n
+                //  {page -> final }
 
-                    var scale = 1.0;
-                    var viewport = page.getViewport({ scale: scale, });
-                    // Support HiDPI-screens.
-                    var outputScale = 5;
-
-                    var canvas = first('.pdfrender');
-                    var context = canvas.getContext('2d'); 
+                function final(pages){
                     
-                    const mmToPx = 72 / 25.4; 
+                    renderPages(pages,__Data.size,f); 
+                } 
 
-                    // [ wbox x , width , wbox y , height ]
 
-                    var wmm = 75;
-                    var hmm = 80;
+                window.pgs = [];
+                window.pageLoadCount = 0;
 
-                    if(location.search.split('~')[1].split('/')[2] ){
-                        wmm = location.search.split('~')[1].split('/')[2].valueOf()*1;
-                    }
+                for(var i in __Data.pages){
 
-                    if(location.search.split('~')[1].split('/')[3] ){
-                        hmm = location.search.split('~')[1].split('/')[3].valueOf()*1;
-                    }
-                    
+                    pdf.getPage(i.valueOf()*1).then(function (page) { 
+                        
+                        pageLoadCount++;
+                        pgs.push(page);
 
-                    var mainSize = [wmm * (mmToPx) , hmm * (mmToPx)];  
+                       
 
-                    if(viewport.viewBox[2] < mainSize[0] || viewport.viewBox[3] < mainSize[1] ){
+                        if(pageLoadCount == __Data.pagesLength){
+                         
+
+                            final(pgs);
+                        } 
+
+                    }).catch(function(m){
+
+                         var ms = "";
+                         var mt =  null;
+
+                         for(var i in __Data.pages){ 
+                            ms += i+' and ';
+                            if(mt == null ) mt = '';
+                            else mt = 's';
+                        }
+                         ms = (ms+',').replaceAll(' and ,','');
 
                         first('.alert .icon').innerHTML = 'info';
-                        first('.alert .text').innerHTML = 'Please upload a PDF with '+wmm+'mm x '+hmm+'mm dimensions.';
+                        first('.alert .text').innerHTML = 'Please make sure the uploaded document has  page'+mt+' '+ms+'.';
                         first('.alert').classList.remove('hdn-i');
                         setTimeout(function () { first('.alert').classList.add('hdn-i'); }, 5000);
 
                         first('.waitDesign').classList.add('hdn-i');
 
+                        return;
+                        });
 
-                    return ;
-                    }
-
-                    var ex = 0.5*(viewport.viewBox[2] -mainSize[0])*outputScale ;
-                    var ey = 0.5*(viewport.viewBox[3] -mainSize[1])*outputScale ;
-
-
-
-
-                    var width = 1024, height = 1024;
-                    canvas.width = Math.floor(viewport.width * outputScale);
-                    canvas.height = Math.floor(viewport.height * outputScale);
-                    canvas.style.width = Math.floor(256) + "px";
-                     canvas.style.height = Math.floor(256) + "px";
-
-                    width = canvas.width;
-                    height = canvas.height;
-
-
-                    var transform = [outputScale, 0, 0, outputScale, 0, 0];
-
-                    var renderContext = {
-                        canvasContext: context,
-                        transform: transform,
-                        viewport: viewport
-                    };
-
-                    page.render(renderContext);
-
-                    var img = document.createElement("img");
-                    img.onload = function () {
-
-                        var cv = document.createElement("canvas");
-                        cv.width = 4096;
-                        cv.height = 4096;
-
-                        var cx = cv.getContext('2d');
-
-                        cx.clearRect(0, 0, 4096, 4096);
-
-                        var w = 4096;
-                       
-
-                        cx.drawImage(img,
-                           ex, 
-                           ey,
-                           mainSize[0]*outputScale ,
-                           mainSize[1]*outputScale,
-                            w * 0.45, w * 0.25, w * 0.31, w * 0.31);
-
-                        var img1 = document.createElement("img");
-                        img1.onload = function () {
-
-                            f(img1);
-
-                        }
-                        setTimeout(function () {
-                            img1.src = cv.toDataURL("image/png");
-                        }, 50);
-
-
-                    }
-                    setTimeout(function () {
-                        img.src = canvas.toDataURL("image/jpeg", 0.8);
-                    }, 500);
-
-
-                });
+                }
+               
 
             }).catch(function(){
 
@@ -221,6 +317,8 @@
              return;
             });
         } catch (ex) {
+
+        
 
         }
     }

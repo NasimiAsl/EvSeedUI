@@ -57,10 +57,7 @@ __webpack_require__.d(__webpack_exports__, {
 
 
 
-var solve = function (p) {
-  console.log(p,p.withResolvers);
-
-
+var solve = function (p) { 
 
   if (p.withResolvers)
     return p.withResolvers();

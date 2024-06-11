@@ -51,15 +51,11 @@
     }
 
     function upload__$$TIDpart_extpdf(d) {
-        console.log(d);
-
-        
+        console.log(d); 
 
         design.pdf = db_api_file + d; 
 
-        saveDesign();
-        
-        
+        saveDesign(); 
 
 
         ShowPdf(db_api_file + d, function (im) {
@@ -72,21 +68,9 @@
 
     }
 
+    renderPage = function(page){
 
-    ShowPdf = function (u, f) {
-
-        first('.waitDesign').classList.remove('hdn-i');
-
-        var PDFJS = pdfjsLib;
-
-        PDFJS.GlobalWorkerOptions.workerSrc = '/engine/pdfworker.js'
-        try {
-            var loadingTask = PDFJS.getDocument(u);
-            loadingTask.promise.then(function (pdf) { 
-
-                pdf.getPage(1).then(function (page) {
-
-                    var scale = 1.5;
+        var scale = 1.5;
                     var viewport = page.getViewport({ scale: scale, });
                     // Support HiDPI-screens.
                     var outputScale = 5;
@@ -146,7 +130,22 @@
                     }
                     setTimeout(function () {
                         img.src = canvas.toDataURL("image/jpeg", 0.8);
-                    }, 500);
+                    }, 500); 
+    };
+
+
+    ShowPdf = function (u, f) {
+
+        first('.waitDesign').classList.remove('hdn-i');
+
+        var PDFJS = pdfjsLib;
+
+        PDFJS.GlobalWorkerOptions.workerSrc = '/engine/pdfworker.js'
+        try {
+            var loadingTask = PDFJS.getDocument(u);
+            loadingTask.promise.then(function (pdf) { 
+
+                pdf.getPage(1).then(function (page) { 
 
 
                 });

@@ -292,21 +292,7 @@
         </repeater>
     </div>
 
-    <div class="cs_textEdit hdn-i cwhite animated slideInRight  ab z-06 t-025 l-00 w-full pop_item h-mx-full ">
-        <loader path="/EvSeed/Tabs/" page="textEdit">
-
-        </loader>
-    </div>
-    <div class="cs_pickFonts hdn-i cwhite animated slideInRight  z-09 ab t-025 l-00 w-full pop_item h-mx-full ">
-        <loader path="/EvSeed/Tabs/" page="pickFonts">
-
-        </loader>
-    </div>
-    <div class="cs_pickColors hdn-i cwhite animated slideInRight  z-10 ab t-025 l-00 w-full pop_item h-mx-full ">
-        <loader path="/EvSeed/Tabs/" page="pickColors">
-
-        </loader>
-    </div>
+    
 
 </div>
 <div class="fx sum_pop ctrblack hdn-i t-00 l-00 z10 w-full h-full f f-r f-at f-ct f-jb f-nw">
@@ -1089,19 +1075,19 @@ flex-direction: row;
 
 
         var eng = main3D;
+ 
 
-        eng.camera.wheelPrecision = 80;
-        eng.camera.lowerRadiusLimit = 13;
-        eng.camera.upperRadiusLimit = 50;
-        eng.camera._currentTarget.x = 3;
-        eng.camera._currentTarget.y = 0;
-        eng.camera._currentTarget.z = 0;
-        eng.camera.alpha = 45.00 * deg;
-        eng.camera.beta = 45 * deg;
-        eng.camera.radius = 32.5;
+eng.camera.wheelPrecision =  __Data.init3dCam.speed;
+eng.camera.lowerRadiusLimit =  __Data.init3dCam.mnr;
+eng.camera.upperRadiusLimit =   __Data.init3dCam.mxr;
+eng.camera._currentTarget.x =   __Data.init3dCam.x;
+eng.camera._currentTarget.y =   __Data.init3dCam.y;
+eng.camera._currentTarget.z =   __Data.init3dCam.z;
+eng.camera.alpha =   __Data.init3dCam.a;
+eng.camera.beta =  __Data.init3dCam.b;
+eng.camera.radius =  __Data.init3dCam.r;
 
-
-        //winResize();
+      
 
         if (location.search.split('~')[3]) {
 

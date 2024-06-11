@@ -366,7 +366,7 @@ armour.prototype = {
             if (op.lightMap) {
 
             } 
-              me.Map({ alpha: 1, path: '/images/none.svg', uv: 'vec2(vuv*vec2(-1.0, 1.0))' }).InLine(`
+              me.Map({ alpha: 1, path: '/images/none.svg', uv: 'vec2(vuv*vec2(float('+(__Data.uvMap? __Data.uvMap.u:1.0)+')*1.0,float('+(__Data.uvMap? __Data.uvMap.v:1.0)+')*1.0))' }).InLine(`
                  
                 vec4 l1 = result ; 
                 `);

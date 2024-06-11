@@ -22,6 +22,8 @@ function InitModel(eng) {
                 _attach = JSON.parse(dc(d.liveData.attached));
                 __Data = js(dc(d.liveData.data).replaceAll('\n', ' ').replaceAll('\\n', ' '));
 
+                console.log(1,__Data);
+
 
                 for (var i in _models) {
                     _model_iden = i;
@@ -247,7 +249,7 @@ var _$$modelLoader = function (mdl, f1) {
 
     if (ext == 'glb') {
 
-        loadGlbSampleModel(main3D.scene, db_api_file + '/Musics/', name + '.' + ext, function (meshes) {
+        loadGlbSampleModel(main3D.scene, db_api_file + '/files/', name + '.' + ext, function (meshes) {
 
             var mesh = new BABYLON.Mesh(main3D.scene);
 
