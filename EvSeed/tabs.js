@@ -975,8 +975,12 @@ flex-direction: row;
             _des_loadeed = true;
             ShowPdf(design.pdf, function (im) {
 
-                if (first('#frame_$$TID') && first('#frame_$$TID').contentWindow)
-                    first('#frame_$$TID').contentWindow.location.reload();
+                if (first('#frame_$$TID') )
+                {
+                    var src = first('#frame_$$TID').src;
+                    first('#frame_$$TID').src = '';
+                    first('#frame_$$TID').src = src; 
+                }
                 _meshRef['1~Box001'][0].material.setTexture('txtRef_1', new BABYLON.Texture(im.src, main3D.scene));
                 first('.waitDesign').classList.add('hdn-i');
             });

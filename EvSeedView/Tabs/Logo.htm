@@ -39,8 +39,12 @@
         saveDesign();
 
 
-        if( first('#frame_$$TID') && first('#frame_$$TID').contentWindow)
-        first('#frame_$$TID').contentWindow.location.reload();
+        if( first('#frame_$$TID')  )
+       {
+        var src = first('#frame_$$TID').src;
+                    first('#frame_$$TID').src = '';
+                    first('#frame_$$TID').src = src; 
+       }
 
 
 
