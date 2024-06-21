@@ -50,7 +50,7 @@
 
         context.clearRect(0, 0, 2048, 2048);
 
-        _meshRef['1~Box001'][0].material.setTexture('txtRef_1', new BABYLON.Texture('/images/none.svg', main3D.scene));
+        _meshRef['1~Box001'][0].material.setTexture('txtRef_2', new BABYLON.Texture('/images/none.svg', main3D.scene));
 
     }
 
@@ -64,7 +64,7 @@
 
         ShowPdf(db_api_file + d, function (im) {
            
-            _meshRef['1~Box001'][0].material.setTexture('txtRef_1', new BABYLON.Texture(im.src, main3D.scene));
+            _meshRef['1~Box001'][0].material.setTexture('txtRef_2', new BABYLON.Texture(im.src, main3D.scene));
             first('.waitDesign').classList.add('hdn-i');
 
             first('#frame_$$TID').contentWindow.location.reload();

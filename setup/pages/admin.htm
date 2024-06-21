@@ -1,0 +1,403 @@
+<script>
+
+</script>
+/// main content
+<div class="fx l-10 r-00 t-00 z-01   h-full ">
+  <loader page="dy3d" onready="element.model = model;window.main3D = model; _loadSetup();
+  " path="/src/coms/"
+    params="{css:'ab   w-full h-full  l-00 t-00  cwhite', setting:{color:{x:0,y:0,z:0,w:1}},  sceneJsPath:[ 'pages/initAdmin.js']}">
+  </loader>
+</div>
+<div id="log" class="fx ctrblack rad-05 p-0005 r-005 c-twhite  rad-05  op2 t-01125 z-01    p-0005 pl-005 pr-005 fs-03 sec-t  ">
+  initilize ...
+</div>
+<div id="ptp" class="fx ctrblack rad-05 p-0005 r-005 rad-05  c-twhite   op4 t-005 z-01    p-0005 pl-005 pr-005 fs-04 sec-t  ">
+
+</div>
+<div   class="fx r-005 rad-05  c-twhite   op4 t-02 z-01    p-0005 pl-005 pr-005 fs-04 sec-t  ">
+   <input type="color" oninput="var s = hexToRgb(this.value,256);main3D.scene.clearColor = new BABYLON.Color4(s.r,s.g,s.b,1);"  />
+</div>
+<style>
+  .shdp {
+    filter: drop-shadow(-1px 2px 2px #00000055);
+  }
+</style>
+
+<div onclick=" " class="fx owf p-0005  rad-50 b-00  ns  fs-07 bb c-tblack  z05    r-00   f-center m-01">
+  <img class="h-0125  rad-50    c-hwgray    p-0005" src="/view/images/haze.svg" />
+  <div
+    class="rad-50 animated   fadeIn  ml-005 fs-03 c-tgray w-05 ba-i-01 h-01 fl f-center p-0005 rad-50 c-b-iwgray2 shdp cwhite ">
+    ver 1.00.1 <img class="h-01   p-0005" src="/view/images/haze2.svg" />
+  </div>
+</div>
+<div class="fx hdn-i wait animated  t-p50 l-p50 f-center  w-mx-00 h-mx-00 ">
+  <div class="w-mn-06 rad-10 h-06  cblack c-twhite f-center f-c f-nw">
+    <div class="rt w-06 h-06 f-center">
+      <div class=" load_progress fs-06 bb ab w-full h-full t-00 l-00 f-center">
+        ~
+      </div>
+      <div class="   fs-06 bb ab w-full h-full t-00 l-00 f-center">
+        <svg width="200mm" height="200mm" viewBox="0 0 200 200" version="1.1" id="svg5"
+          xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+
+          <ellipse
+            style="opacity:0.873239;fill:none;stroke:#ffffff22;stroke-width:5;stroke-linejoin:bevel;stroke-opacity:1;stroke-dasharray:400;stroke-dashoffset:400"
+            id="wait_prg" cx="100" cy="100" rx="64.380951" ry="62.095238" />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+<div class=" p-00   ctrwhite rad-05 mb-005 w-auto    z03 fx b-00  l-13  f f-nw f-r f-at f-ct f-jc ">
+  <div onclick="first('.maindatalist').classList.toggle('hdn-i');this.classList.toggle('c-iwgray');"
+    class="w-015 m-00125 pl-0025 pr-0025 rad-05 c-t-hnavy h-015 fs-07 icon f-center">
+    data_object
+  </div>
+  <div onclick=";
+   layerIndex++;  
+   
+   addVirtalBox(layerIndex,main3D.scene,main3D.camera.position,main3D.camera._currentTarget ,
+           {size:1,rot:0.,path:''},1,'text_',{msg:'My Text',co1:'#ff8800' ,co2:'#884400',font:'Arial',bold:true});
+                  
+   " class="w-015 m-00125 c-t-hnavy h-015 fs-07 icon f-center">text_fields</div>
+
+  <div onclick=";
+    layerIndex++;   
+
+    addVirtalBox(layerIndex,main3D.scene,main3D.camera.position,main3D.camera._currentTarget ,
+    {size:1,rot:0.,path:''},1,'icon_',{image:'../Images/def.svg'});
+
+    " class="w-015 m-00125 c-t-hnavy h-015 fs-07 icon f-center">extension</div>
+
+  <div onclick="saveToDataBase()" class="w-015 m-00125 c-t-hnavy h-015 fs-07 icon f-center">Save </div>
+  <div onclick="saveToDataBase(true)" class="w-015 m-00125 c-t-hnavy h-015 fs-07 icon f-center">save_as </div>
+  <div class="f-center f-r">
+    <input class="w-02 m-00125 p-00125 fs-04 outputIden" value="" placeholder="iden" />
+    <select class="w-03 server p-00125 c-t-hnavy   rt   fs-04">
+      <option value="jlglove">
+        JlGlove
+      </option>
+      <option value="y1sport">
+        Y1Sport
+      </option>
+    </select>
+  </div>
+  <div onclick="saveToDataBase(true,first('.server').value,first('.outputIden').value.valueOf()*1);
+      " class="w-015 m-00125 ml-00 c-t-hnavy h-015 fs-07 icon f-center">move_group</div>
+  <div class="w-015 m-00125 c-t-hnavy h-015 fs-07 icon f-center">share </div>
+  <div class="rt">
+    <div class="w-015 m-00125 c-t-hwgray rad-05 h-015 fs-07 icon f-center" onclick="first('.membership').classList.toggle('hdn-i');
+      this.classList.toggle('c-inavy');">
+      group
+    </div>
+    <div class="ab b-015 l-00 hdn-i   membership   ">
+      <div class="cnavy rad-05  p-005   hdn-i userLogin rt">
+        <div class="ab loginWait hdn-i b-00 l-00 w-full h-full cblack f-center">
+          <div class="ba-i-02 rad-50 w-01125 h-01125 owf c-b-iorg op2">
+            <img src="/images/load.svg" class="rotating w-01125 h-01125" />
+          </div>
+        </div>
+        <div class=" f f-r f-ac f-cc f-jb"> <input type="text"
+            class="p-0005 fs-05 pl-00125 ba-i-01 userEmail c-b-iwhite mb-0025 w-05 p-0005 rad-03" placeholder="Email" />
+        </div>
+        <div class=" f f-r f-ac f-cc f-jb"> <input type="password"
+            class="p-0005 fs-05 pl-00125 ba-i-01 userPass c-b-iwhite  mb-0025  w-05 p-0005 rad-03"
+            placeholder="Password" onkeydown=";
+
+      if(event.keyCode==13 && first('.user_login').className.indexOf('hdn-i')==-1){
+          first('.btn_signIn').click();
+
+      }else if(event.keyCode==13 && first('.user_login').className.indexOf('hdn-i')!=-1){
+          first('.btn_signUp').click(); 
+      } 
+      " /></div>
+        <div class="user_login">
+          <div class=" f f-r f-ac f-cc f-jb">
+            <input type="button" class="ctrans cb-i-01 c-b-itrans c-t-hwhite c-twgray"
+              onclick="first('.user_login').classList.add('hdn-i');first('.user_register').classList.remove('hdn-i');"
+              value="New User" />
+
+            <input type="button"
+              class="p-0005 fs-05 pl-00125 ba-i-01 c-b-itrans c-hblue c-twhite cnavy  mb-0025  w-03 p-0005 btn_signIn rad-03"
+              value="Sign In" onclick=";
+
+          first('.loginWait').classList.remove('hdn-i'); 
+
+          md5(first('.userPass').value,'login',function(pass){
+
+              first('.loginWait').classList.remove('hdn-i');
+            new GUX.dataRow(1000).watch(function(s,d){  
+             
+
+              if(s =='success' && d.length > 0){
+
+                  // createToken
+                  for(var i in d){
+
+                       localStorage._loginToken_ = i+'!qwsae!'+pass+'!qwsae!'+first('.userEmail').value.trim().toLowerCase() ;
+                      
+                       first('.loginWait').classList.add('hdn-i');
+                        location.reload();
+                      
+                   }
+
+              } else if( s =='success') {
+
+                  ///
+                  alert('please try correct email address or use New User page to Register.')
+                  first('.loginWait').classList.add('hdn-i');
+
+             } else {
+
+                  alert('something wrong please try again.')
+                  first('.loginWait').classList.add('hdn-i');
+
+             }
+
+          }).list({ pass:'',user:''}, 
+              { pass:pass,user:first('.userEmail').value.trim().toLowerCase()},0,1000,2);                 
+
+          }) " />
+          </div>
+          <input type="button" class="ctrans cb-i-01 c-b-itrans c-t-hwhite c-twgray"
+            onclick="sendMail(first('.userEmail'))" value="Forget Password" />
+        </div>
+
+        <div class="user_register hdn-i">
+          <div class=" f f-r f-ac f-cc f-jb"> <input type="password" onkeydown=";
+              if(event.keyCode==13 && first('.user_login').className.indexOf('hdn-i')!=-1){
+          first('.btn_signUp').click(); 
+      }" class="p-0005  fs-05 pl-00125 ba-i-01 userPass2 c-b-iwhite  mb-0025  w-05 p-0005 rad-03"
+              placeholder="Password" /></div>
+
+          <div class=" f f-r f-ac f-cc f-jb">
+            <input type="button" class="ctrans cb-i-01 c-b-itrans c-t-hwhite c-twgray"
+              onclick="first('.user_login').classList.remove('hdn-i');first('.user_register').classList.add('hdn-i');"
+              value="login" />
+            <input type="button"
+              class="p-0005 fs-05 pl-00125 ba-i-01 c-b-itrans c-hblue c-twhite cnavy btn_signUp  mb-0025  w-03 p-0005 rad-03"
+              value="Sign Up" onclick=";
+  
+              first('.loginWait').classList.remove('hdn-i'); 
+  
+              md5(first('.userPass').value,'login',function(pass){
+  
+                  first('.loginWait').classList.remove('hdn-i');
+
+                new GUX.dataRow(1000).watch(function(s,d){
+
+                  console.log(s,d);
+  
+                  if(d.length > 0 ){
+
+                      alert('please try another email or or use login page to login with exist user data.')
+                      first('.loginWait').classList.add('hdn-i');
+  
+                  } else if(first('.userPass').value != first('.userPass2').value){
+
+                      alert('please check your data and try again.')
+                      first('.loginWait').classList.add('hdn-i');
+
+                  } else {
+  
+                      ///
+                      /*save*/
+              new GUX.dataRow(1000).watch(function(s,d){
+
+                   
+                  localStorage._loginToken_ = d.iden +'!qwsae!'+pass+'!qwsae!'+first('.userEmail').value.trim().toLowerCase();
+                  first('.loginWait').classList.add('hdn-i');
+                    location.reload();  
+
+                  }).save({
+
+                      user:first('.userEmail').value.trim().toLowerCase(),
+                      pass:'__disc__'+pass   
+                      });
+                       
+  
+                 }
+  
+              }).list({ user:''}, 
+                  {  user:first('.userEmail').value.trim().toLowerCase()},0,1000,1);                 
+  
+              }) " />
+          </div>
+        </div>
+
+        <div>
+
+        </div>
+      </div>
+      <div class="cnavy rad-05 userPanel hdn-i p-0025 c-tgray fs-05">
+
+        <div class=" f f-r f-ac f-cc f-jb mb-005">
+          <div class="  fs-03 rad-05 p-0025">Welcome <span id="username_wlc" class="c-tblack bb fs-03"></span>
+          </div>
+          <input type="button"
+            class="ba-i-01 fs-03 bb c-b-inavy c-hnavy c-twgray c-t-hwhite ctrans  m-0005   p-00125 rad-03"
+            value="logout" onclick=";localStorage._loginToken_ = undefined;location.reload();" />
+        </div>
+        <input type="button"
+          class="ba-i-01 fs-03  bb c-b-inavy pl-0025 pr-0025 c-hnavy c-twgray c-t-hwhite ctrans  m-0005   p-00125 rad-03"
+          value="Create New Model" onclick=";
+            first('.modelList').innerHTML = '';
+               new GUX.dataRow(1001).watch(function(s,d){  
+                  
+                  new GUX.dataRow(1000).setId(userTkn[0].valueOf()*1)
+                  .watch(function(){
+
+                    
+                     location = '/setup/?'+d.iden;
+
+                  })
+                  .save({myitems:my_List_id+','+d.iden+'_'+(new Date().getTime())+'_new model'}); 
+                  
+
+               }).save({user:userTkn[2]+'_'+userTkn[0] })
+
+              ;" />
+        <div class=" h-08 owf-x w-06 modelList f f-c f-at f-ct f-js  ">
+
+
+        </div>
+        <script>
+
+        </script>
+      </div>
+    </div>
+  </div>
+</div>
+<div class=" p-00 h-mx-full h-full owf-x cblack  br-i-01 c-b-igray   z03 fx t-00  l-00    f f-nw f-c f-at f-ct f-js ">
+  <loader page="models" path="pages/admin/" params="{}">
+</div>
+<div class="fx cwgray hdn-i  maindatalist t-015 l-13 r-01 h-p50 h-mx-p90 rad-10 p-0025 f f-r f-at f-ct f-jb">
+  <textarea onkeyup="_saveSetup();" class="ctrans fs-05 bb  w-full h-full m-0025 ba-i-01 c-b-itrans">
+    {
+      main:{},
+      icons:{},
+      texts:{},
+      var1:{
+        var:{
+
+        }
+      }
+    }
+  </textarea>
+</div>
+
+<div style="left:190px;"
+  class=" p-00 h-mx-full h-full br-i-01 c-b-igray   z03 fx t-00  cblack     f f-nw f-c f-at f-ct f-js ">
+  <loader page="materials" path="pages/admin/" params="{}">
+</div>
+
+/// background script
+<script>
+
+  if (localStorage._loginToken_ == undefined || localStorage._loginToken_ == 'undefined') {
+    first('.userLogin').classList.remove('hdn-i');
+
+  } else {
+    first('.userLogin').classList.add('hdn-i');
+    first('.userPanel').classList.remove('hdn-i');
+
+    userTkn = localStorage._loginToken_.split('!qwsae!');
+
+    first('#username_wlc').innerHTML = userTkn[2];
+
+    new GUX.dataRow(1000).watch(function (s, d) {
+
+      userTkn = localStorage._loginToken_.split('!qwsae!');
+
+      if (d.liveData && d.liveData.pass.replace('__disc__', '') != userTkn[1]) {
+        localStorage._loginToken_ = undefined;
+        location.refrash();
+      }
+
+      if (d.liveData) {
+        my_List_id = d.liveData.myitems.replace('[', '').replace(']', '');
+
+        if (location.search != '' && my_List_id.indexOf(location.search.replace('?', '#comma') + '_') == -1) {
+           alert('please join with admin and work on your area.');
+          location = '/setup'; 
+        }
+        var mlist = my_List_id.split('#comma');
+
+        for (var i in mlist) {
+          if (mlist[i].indexOf('_') != -1) {
+            i = mlist[i].split('_');
+
+            var dt = new Date(); dt.setTime(i[1]);
+
+            var dv = document.createElement('div');
+            dv.className = (currModelIden == i[0].valueOf() * 1 ? 'c-iorg' : ' cwgray') + ' ns m-0005 p-0005 rad-05 pl-0025 w-05 pr-0025   c-hblue c-tblack bb fs-04';
+
+            dv.innerHTML = i[2] + '<span  class="fs-03 sub c-tblack">id : ' + i[0] + '</br> ' + (dt).toLocaleDateString() + ' ' + (dt).toLocaleTimeString() + ' </span>';
+            dv.style.order = i[1];
+            dv.iden = i[0];
+            dv.id = 'iden_' + i[0];
+
+            dv.onclick = function () {
+              var th = this;
+              if (confirm('make sure your old data be saved')) {
+
+                new GUX.dataRow(1001).setId(th.iden).watch(function (s, d) {
+
+                  if (s == 'empty') {
+
+                    location = '/setup/?' + th.iden;
+                  }
+
+                  localStorage['_meshMatMap' + (location.search)] = dc(d.liveData.matmap);
+
+                  localStorage['_model_iden' + (location.search)] = dc(d.liveData.models);
+
+                  localStorage['_mats_iden' + (location.search)] = dc(d.liveData.mats);
+
+                  localStorage['_maindatalist' + (location.search)] = dc(d.liveData.data);
+
+                  localStorage['_attach' + (location.search)] = dc(d.liveData.attached);
+
+                  location = '/setup/?' + th.iden;
+
+                }).load({ matmap: '', models: '', mats: '', data: '', attached: '' });
+
+              }
+            }
+
+            if (!first('#iden_' + i[0]))
+              first('.modelList').appendChild(dv)
+          }
+        }
+
+      }
+    }).setId(userTkn[0].valueOf() * 1).load({ user: '', pass: '', myitems: '' });
+
+  }
+
+
+  window.addEventListener(
+    "message",
+    (event) => {
+
+      if (event.data.type.startsWith('md5_')) {
+        md5f[event.data.type.replace('md5_', '')](event.data.path);
+      }
+
+      if (event.data.type && event.data.type.startsWith('upload_')) {
+
+        if (first('.' + event.data.type.split('_ext')[0]).src.indexOf('/categories?') == -1) {
+
+          first('.' + event.data.type.split('_ext')[0]).src = db_api_file + '/submit/dashboard?' + event.data.type + '!' + event.data.path;
+        }
+
+        window.eval(event.data.type.split('_ext')[0] + '("' + event.data.path + '")');
+
+      }
+    },
+    false
+  );
+
+
+
+</script>

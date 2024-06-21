@@ -1,0 +1,597 @@
+<script>
+    $$_data = {
+        itemDefaultCss: 'ctrwhite2 w-full c-htrblack mb-0005 rad-05 prm-t-h c-tgray'
+    };
+</script>
+/// main content
+<div class="   p-00125 w-06    owf-x  rad-05 f f-c f-at f-ct f-js">
+
+    <div style="width: 200%;left:  0%;" class="rt  materialSlide animated   f f-r f-at f-ct f-jb">
+        <div class="material w-full ">
+
+            <iloader page="item" path="/src/coms/"
+                params="{click:' _createMat(null)',ico_css:'c-twhite',icon:'stroke_full',text:'new material',css:'$$itemDefaultCss'}">
+            </iloader>
+            <div class="  list_$$TID   ">
+
+            </div>
+        </div>
+
+        <div class="rt  w-full h-full">
+            <iloader page="item" path="/src/coms/"
+                params="{click:'  _$$TID_matSelect()  ',ico_css:'c-twhite',icon:'arrow_back',text:'back',css:' back_$$TID hdn-i   $$itemDefaultCss'}">
+            </iloader>
+
+
+            <div class="ab  t-005 w-auto r-00 ctrwhite2 owf-x  f f-r f-at f-ct f-je c-tgray h-01  z10 def Materials">
+                <div onclick="localStorage.matCopy =JSON.stringify(_materials[_sel_material]) ;" class="c-hwgray icon f-center fs-05 c-t-hblack f f-r f-ac f-cc f-js">
+                     file_copy 
+                </div>
+                <div  onclick="if(localStorage.matCopy && confirm('wanna set material parameters? this action need reload to see result.')){ _materials[_sel_material] =  JSON.parse(localStorage.matCopy );_saveSetup(); localStorage.matCopy  = ''; location.reload();  }" class="c-hwgray icon f-center fs-05 c-t-hblack  f f-r f-ac f-cc f-js">
+                    content_paste
+                </div> 
+            </div>
+            <div class="mt-02  h-mx-p80 owf-x properties_$$TID  ">
+            </div>
+        </div>
+    </div>
+</div>
+/// background script
+<script>
+
+    var _materials = [];
+    var _sel_material = null;
+    var _material_iden = 0;
+    var _meshMatMap = {};
+
+    var _$$TID_deleteMat = function (th) {
+        if (confirm('are you wanna remove item?')) {
+
+            var iden = 0;
+
+            iden = th.id.split('_')[1].valueOf() * 1;
+
+            _materials[iden] = { deleted: 1 };
+            first('.properties_$$TID #iden_' + iden).remove();
+            if (first('#subs_' + iden)) first('#subs_' + iden).parentNode.remove();
+            _saveSetup();
+        }
+    }
+
+    var _$$TID_changeMat = function (th) {
+        var iden = th.id.split('_')[1].valueOf() * 1;
+        _materials[iden].name = th.value;
+
+        _saveSetup();
+    }
+
+
+    var _createMat = function (id, part) {
+
+        var loader = id != undefined;
+
+        id = id ? id : ++_material_iden;
+
+        _materials[id] = def(_materials[id], { name: ' ... ' });
+
+        _materials[id].parent = _materials[id].parent ? _materials[id].parent : part;
+
+        dyHtml.append((part ? first('#subs_' + part) : first('.list_$$TID ')), {
+            iden: id, type: 1,
+            click: '_matClick(this)',
+            delete: '_$$TID_deleteMat(this)',
+            change: '_$$TID_changeMat( this);',
+            action: ' _$$TID_matSelect(this);',
+            icon: 'stroke_full', text: _materials[id].name,
+            css: '  c-hblack __mats  mb-0005 rad-05 prm-t-h sec-t',
+            ico_css: 'c-tgray',
+
+
+        }, 'item', '/src/coms/');
+
+        if (!loader)
+            _saveSetup();
+
+
+    };
+
+    var _matClick = function (th) {
+        var iden = th.id.split('_')[1].valueOf() * 1;
+        _selectedMeshes(function (mesh, p, mid) {
+            console.log(mesh);
+            if (!_meshMatMap[mid]) _meshMatMap[mid] = {};
+            _meshMatMap[mid].mat = p.id;
+            _saveSetup();
+        }, { id: iden });
+    }
+
+    var _$$TID_matSelect = function (th) {
+
+        var iden = !th ? _sel_material : th.id.split('_')[1].valueOf() * 1;
+
+        all('.__mats', function (at) {
+            at.classList.remove('c-inavy');
+        }, function () {
+
+            if (_sel_material == iden) {
+                _sel_material = 0;
+
+                first('.materialSlide').style.left = '0%';
+                first('.back_$$TID').classList.add('hdn-i');
+                first('.materialSlide .properties_$$TID ').innerHTML = '';
+            }
+            else {
+                _sel_material = iden;
+                th.parentNode.parentNode.parentNode.classList.add('c-inavy');
+                first('.materialSlide').style.left = '-100%';
+                first('.back_$$TID').classList.remove('hdn-i');
+
+                _matCall(th);
+
+            }
+
+        });
+
+    }
+
+
+    var _matCall = function (th) {
+
+        var iden = th.id.split('_')[1].valueOf() * 1;
+
+        _materials[iden] = def(_materials[iden], {});
+        _materials[iden].iden = iden;
+
+        var _form = {
+            PID: iden,
+            path: '/src/coms/',
+            page: 'json',
+            css: 'w-full f f-c f-at f-ct f-js',
+            items: {
+
+                bt1: {
+                    title: 'Base Color (albido)',
+                    item: 4,
+                },
+                color: {
+                    title: 'base color',
+                    type: 'color',
+                    input: function (value) {
+                        _materials[iden].color = value;
+                        _saveSetup();
+
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+                            m.material.setSetting(_materials[iden]);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].color, '$ffffff')
+                },
+                fscolor: {
+                    title: 'fresnel color',
+                    type: 'color',
+                    input: function (value) {
+                        _materials[iden].fscolor = value;
+                        _saveSetup();
+
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+                            m.material.setSetting(_materials[iden]);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].fscolor, '#ffffff')
+                },
+                norm: {
+                    title: 'displacement',
+                    doctype: 'dashboard',
+                    input: function (value) {
+
+
+                    },
+                    load: function (value) {
+
+                        _materials[iden].disp = value.src;
+                        _saveSetup();
+
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+
+                            m.material = r_mur.pbrMaterial(o, main3D.scene);
+                        }, _materials[iden]);
+
+
+                    },
+                    value: def(_materials[iden].disp, '/images/none.svg'),
+                    item: 6,
+                },
+                uvsnxy: {
+                    title: 'uv_ScaleNXY',
+                    type: 'input',
+                    inp_css: 'cwhite ba-i-01 c-b-iwgray rad-03 fs-04 p-0005',
+                    input: function (value) {
+
+                        _materials[iden].uvsnxy = value;
+                        _saveSetup();
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+                            m.material.setSetting(_materials[iden]);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].uvsnxy, 1)
+                },
+
+                base: {
+                    title: 'base',
+                    doctype: 'dashboard',
+                    input: function (value) {
+
+
+                    },
+                    load: function (value) {
+
+                        _materials[iden].base = value.src;
+                        _saveSetup();
+
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+
+                            m.material = r_mur.pbrMaterial(o, main3D.scene);
+                        }, _materials[iden]);
+
+
+                    },
+                    value: def(_materials[iden].base, '/images/none.svg'),
+                    item: 6,
+                },
+                uvpx: {
+                    title: 'uv_PosX',
+                    type: 'input',
+                    inp_css: 'cwhite ba-i-01 c-b-iwgray rad-03 fs-04 p-0005',
+                    input: function (value) {
+
+                        _materials[iden].uvpx = value;
+                        _saveSetup();
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+                            m.material.setSetting(_materials[iden]);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].uvpx, 0.)
+                },
+                uvpy: {
+                    title: 'uv_PosY',
+                    type: 'input',
+                    inp_css: 'cwhite ba-i-01 c-b-iwgray rad-03 fs-04 p-0005',
+                    input: function (value) {
+
+                        _materials[iden].uvpy = value;
+                        _saveSetup();
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+                            m.material.setSetting(_materials[iden]);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].uvpy, 0.)
+                },
+             
+                uvsx: {
+                    title: 'uv_ScaleX',
+                    type: 'input',
+                    inp_css: 'cwhite ba-i-01 c-b-iwgray rad-03 fs-04 p-0005',
+                    input: function (value) {
+
+                        _materials[iden].uvsx = value;
+                        _saveSetup();
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+                            m.material.setSetting(_materials[iden]);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].uvsx, 1)
+                },
+                uvsy: {
+                    title: 'uv_ScaleY',
+                    type: 'input',
+                    inp_css: 'cwhite ba-i-01 c-b-iwgray rad-03 fs-04 p-0005',
+                    input: function (value) {
+
+                        _materials[iden].uvsy = value;
+                        _saveSetup();
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+                            m.material.setSetting(_materials[iden]);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].uvsy, 1)
+                },
+                uvr: {
+                    title: 'uv_Rotate',
+                    type: 'input',
+                    inp_css: 'cwhite ba-i-01 c-b-iwgray rad-03 fs-04 p-0005',
+                    input: function (value) {
+
+                        _materials[iden].uvr = value;
+                        _saveSetup();
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+                            m.material.setSetting(_materials[iden]);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].uvr, 0)
+                },
+                cusUV: {
+                    title: 'custom uv',
+                    type: 'input',
+                    inp_css: 'cwhite ba-i-01 c-b-iwgray rad-03 fs-04 p-0005',
+                    input: function (value) {
+
+                        _materials[iden].cusUV = value;
+                        _saveSetup();
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+
+                            m.material = r_mur.pbrMaterial(o, main3D.scene);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].cusUV, '')
+                },
+                cusUVRot: {
+                    title: 'custom uv rot',
+                    type: 'input',
+                    inp_css: 'cwhite ba-i-01 c-b-iwgray rad-03 fs-04 p-0005',
+                    input: function (value) {
+
+                        _materials[iden].cusUVRot = value;
+                        _saveSetup();
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+
+                            m.material = r_mur.pbrMaterial(o, main3D.scene);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].cusUVRot, 0)
+                },
+                cusUVZ: {
+                    title: 'custom uv z',
+                    type: 'input',
+                    inp_css: 'cwhite ba-i-01 c-b-iwgray rad-03 fs-04 p-0005',
+                    input: function (value) {
+
+                        _materials[iden].cusUVZ = value;
+                        _saveSetup();
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+
+                            m.material = r_mur.pbrMaterial(o, main3D.scene);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].cusUVZ, 0)
+                },
+                cusUVMode: {
+                    title: 'custom mode',
+                    type: 'input',
+                    inp_css: 'cwhite ba-i-01 c-b-iwgray rad-03 fs-04 p-0005',
+                    input: function (value) {
+
+                        _materials[iden].cusUVMode = value;
+                        _saveSetup();
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+
+                            m.material = r_mur.pbrMaterial(o, main3D.scene);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].cusUVMode, 'sphare')
+                },
+
+                lightScaleArea: {
+                    title: 'light_Area',
+                    type: 'input',
+                    inp_css: 'cwhite ba-i-01 c-b-iwgray rad-03 fs-04 p-0005',
+                    input: function (value) {
+
+                        _materials[iden].lightScaleArea = value;
+                        _saveSetup();
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+
+                            m.material = r_mur.pbrMaterial(o, main3D.scene);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].lightScaleArea, 10.0)
+                },
+                backFace: {
+                    title: 'backFace',
+                    type: 'input',
+                    inp_css: 'cwhite ba-i-01 c-b-iwgray rad-03 fs-04 p-0005',
+                    input: function (value) {
+
+                        _materials[iden].backFace = value;
+                        _saveSetup();
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+
+                            m.material = r_mur.pbrMaterial(o, main3D.scene);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].backFace, '')
+                },
+
+                bt11: {
+                    title: 'lights effect',
+                    item: 4,
+                },
+                li1a: {
+                    title: 'scattering',
+                    type: 'range',
+                    min: 0,
+                    max: 1,
+                    step: 0.01,
+                    input: function (value) {
+
+                        _materials[iden].li1a = value;
+                        _saveSetup();
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+                            m.material.setSetting(_materials[iden]);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].li1a, 0.5)
+                },
+                li1b: {
+                    title: 'phonge',
+                    type: 'range',
+                    min: 0,
+                    max: 2,
+                    step: 0.01,
+                    input: function (value) {
+                        _materials[iden].li1b = value;
+                        _saveSetup();
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+                            m.material.setSetting(_materials[iden]);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].li1b, 0.5)
+                },
+                li1c: {
+                    title: 'specular',
+                    type: 'range',
+                    min: 0,
+                    max: 2,
+                    step: 0.01,
+                    input: function (value) {
+                        _materials[iden].li1c = value;
+                        _saveSetup();
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+                            m.material.setSetting(_materials[iden]);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].li1c, 0.25)
+                },
+                li1d: {
+                    title: 'fresnel',
+                    type: 'range',
+                    min: 0,
+                    max: 2,
+                    step: 0.01,
+                    input: function (value) {
+                        _materials[iden].li1d = value;
+                        _saveSetup();
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+                            m.material.setSetting(_materials[iden]);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].li1d, 0.25)
+                },
+
+                bt21: {
+                    title: 'shining',
+                    item: 4,
+                },
+
+                li2a: {
+                    title: 'specular_power',
+                    type: 'range',
+                    min: 1,
+                    max: 100,
+                    step: 0.01,
+                    input: function (value) {
+                        _materials[iden].li2a = value;
+                        _saveSetup();
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+                            m.material.setSetting(_materials[iden]);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].li2a, 20)
+                },
+                li2b: {
+                    title: 'specular_level',
+                    type: 'range',
+                    min: 0,
+                    max: 100,
+                    step: .0001,
+                    input: function (value) {
+                        _materials[iden].li2b = value;
+                        _saveSetup();
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+                            m.material.setSetting(_materials[iden]);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].li2b, 1)
+                },
+                li2c: {
+                    title: 'contrast',
+                    type: 'range',
+                    min: 0.5,
+                    max: 3,
+                    step: .01,
+                    input: function (value) {
+                        _materials[iden].li2c = value;
+                        _saveSetup();
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+                            m.material.setSetting(_materials[iden]);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].li2c, 1)
+                },
+                li2d: {
+                    title: 'color_level',
+                    type: 'range',
+                    min: 0.0,
+                    max: 1,
+                    step: .01,
+                    input: function (value) {
+                        _materials[iden].li2d = value;
+                        _saveSetup();
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+                            m.material.setSetting(_materials[iden]);
+                        }, _materials[iden]);
+                    },
+                    value: def(_materials[iden].li2d, 1)
+                },
+
+                bt112: {
+                    title: 'Transparency ',
+                    item: 4,
+                },
+
+                trans: {
+
+                    title: 'trans',
+                    item: 5,
+                    input: function (value) {
+                        _materials[iden].trans = value;
+                        _saveSetup();
+                        _selectedMeshes(function (m, o) {
+                            m.matId = o.iden;
+                            m.material.setSetting(_materials[iden]);
+                        }, _materials[iden]);
+
+                    },
+                    value: (_materials[iden].trans ? 'done_outline' : 'cancel')
+
+                },
+
+
+                bt2: {
+                    title: 'Bump ',
+                    item: 4,
+                },
+
+            }
+        };
+
+
+        dyHtml.loader(first('.materialSlide .properties_$$TID '), _form);
+
+
+    };
+
+</script>

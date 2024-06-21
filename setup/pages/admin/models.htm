@@ -1,0 +1,720 @@
+<script>
+    $$_data = {
+        itemDefaultCss: 'ctrwhite2 w-full c-htrblack mb-0005 rad-05 prm-t-h c-tgray'
+    };
+</script>
+/// main content
+<div class="owf-x  p-00125 w-06      rad-05 f f-c f-at f-ct f-js">
+
+    <div style="width: 200%;left:  0%;" class="rt modelSlide animated h-full f f-r f-at f-ct f-jb">
+        <div class="model w-full ">
+            <iloader page="item" path="/src/coms/"
+                params="{click:' _$$TID_createModel(null)',ico_css:'c-twhite',icon:'view_in_ar',text:'new model',css:'$$itemDefaultCss'}">
+            </iloader>
+            <div class="  list_$$TID   ">
+
+            </div> 
+        </div>
+        
+        <div class=" w-full">
+            <iloader page="item" path="/src/coms/"
+                params="{click:' _$$TID_modelSelect()',ico_css:'c-twhite',icon:'arrow_back',text:'back',css:' back_$$TID hdn-i   $$itemDefaultCss'}">
+            </iloader>
+            <div class=" modelList properties_$$TID  "> 
+            </div> 
+        </div>
+
+    </div>
+</div>
+/// background script
+<script>
+
+    var _models = [];
+    var _sel_model = null;
+    var _model_iden = 0;
+    var _meshRef = [];
+    var _attach = [];
+
+    var _$$TID_deleteModel = function (th) {
+        if (confirm('are you wanna remove item?')) {
+
+            var iden = 0;
+            iden = th.id.split('_')[1].valueOf() * 1;
+            _models[iden] = { deleted: 1 };
+            console.log(iden)
+            _saveSetup();
+            first('.model  #iden_' + iden).remove();
+            if (first('.model  #subs_' + iden)) first('.model  #subs_' + iden).parentNode.remove();
+
+        }
+    }
+
+    var _$$TID_changeModel = function (th) {
+        var iden = th.id.split('_')[1].valueOf() * 1;
+        _models[iden].name = th.value;
+
+        _saveSetup();
+    }
+
+    var _saveSetup = function () {
+
+        localStorage['_meshMatMap' + (location.search)] = JSON.stringify(_meshMatMap);
+        localStorage['_model_iden' + (location.search)] = JSON.stringify(_models);
+        localStorage['_mats_iden' + (location.search)] = JSON.stringify(_materials);
+        localStorage['_maindatalist' + (location.search)] =
+            first('.maindatalist textarea').value;
+
+        _attach = [];
+        for (var i in icons) {
+            _attach[i] = {
+                data: icons[i].option
+                ,
+                pos: {
+                    x: icons[i].position.x,
+                    y: icons[i].position.y,
+                    z: icons[i].position.z
+                },
+                mpos: {
+                    x: icons[i].main.position.x,
+                    y: icons[i].main.position.y,
+                    z: icons[i].main.position.z
+                },
+                rot: {
+                    x: icons[i].rotation.x,
+                    y: icons[i].rotation.y,
+                    z: icons[i].rotation.z
+                },
+                mrot: {
+                    x: icons[i].main.rotation.x,
+                    y: icons[i].main.rotation.y,
+                    z: icons[i].main.rotation.z
+                },
+                rot: {
+                    x: icons[i].rotation.x,
+                    y: icons[i].rotation.y,
+                    z: icons[i].rotation.z
+                },
+                msca: {
+                    x: icons[i].main.scaling.x,
+                    y: icons[i].main.scaling.y,
+                    z: icons[i].main.scaling.z
+                }
+            };
+        }
+
+        localStorage['_attach' + (location.search)] = JSON.stringify(_attach);
+
+
+
+    };
+
+    var _loadIcons = function () {
+
+        function addIcon(i, ic) {
+            layerIndex = i;
+            var tx;
+
+            if (ic.data.text)
+                tx = addVirtalBox(i, main3D.scene, main3D.camera.position, main3D.camera._currentTarget,
+                    { size: 1, rot: 0., path: '' }, 1, 'text_', ic.data);
+            else
+                tx = addVirtalBox(i, main3D.scene, main3D.camera.position, main3D.camera._currentTarget,
+                    { size: 1, rot: 0., path: '' }, 1, 'icon_', ic.data);
+
+
+            tx.position.x = ic.pos.x;
+            tx.position.y = ic.pos.y;
+            tx.position.z = ic.pos.z;
+            tx.main.position.x = ic.mpos.x;
+            tx.main.position.y = ic.mpos.y;
+            tx.main.position.z = ic.mpos.z;
+
+            tx.rotation.x = ic.rot.x;
+            tx.rotation.y = ic.rot.y;
+            tx.rotation.z = ic.rot.z;
+            tx.main.rotation.x = ic.mrot.x;
+            tx.main.rotation.y = ic.mrot.y;
+            tx.main.rotation.z = ic.mrot.z;
+
+            tx.main.scaling.x = ic.msca.x;
+            tx.main.scaling.y = ic.msca.y;
+            tx.main.scaling.z = ic.msca.z;
+
+
+        }
+
+        for (var i in _attach) {
+            if (_attach[i])
+                addIcon(i, _attach[i]);
+        }
+    }
+
+    var _loadSetup = function () {
+
+        try {
+            if (localStorage['_model_iden' + (location.search)]) {
+                _models = JSON.parse(localStorage['_model_iden' + (location.search)]);
+                _materials = JSON.parse(localStorage['_mats_iden' + (location.search)]);
+                _meshMatMap = JSON.parse(localStorage['_meshMatMap' + (location.search)]);
+                _attach = JSON.parse(localStorage['_attach' + (location.search)]);
+
+                if (localStorage['_maindatalist' + (location.search)])
+                    first('.maindatalist textarea').value = localStorage['_maindatalist' + (location.search)].replaceAll('\\n', '\n');
+
+                for (var i in _models) {
+                    _model_iden = i;
+
+                    if (_models[i] && !_models[i].deleted) {
+
+                        _$$TID_createModel(i);
+                    }
+
+                }
+
+                for (var i in _materials) {
+                    _material_iden = i;
+
+                    if (_materials[i] && !_materials[i].deleted) {
+
+                        _createMat(i);
+                    }
+
+                }
+
+                setTimeout(() => { 
+
+                }, 200);
+
+
+
+            }
+        } catch (e) { console.log('Error Storage', e); }
+
+    }
+
+
+    var _$$TID_createModel = function (id, part) {
+
+        var loader = id != undefined;
+
+        id = id ? id : ++_model_iden;
+
+        _models[id] = def(_models[id], { name: ' ... ' });
+
+        _models[id].parent = _models[id].parent ? _models[id].parent : part;
+
+        _models[id].iden = id;
+
+        dyHtml.append((part ? first('#subs_' + part) : first('.list_$$TID ')), {
+            iden: id, type: 1, val: id,
+            click: '_$$modelLoader(_models[' + id + '])',
+            delete: '_$$TID_deleteModel( this);',
+            change: '_$$TID_changeModel( this);',
+            action: ' _$$TID_modelSelect(this);',
+            icon: 'view_in_ar', text: _models[id].name,
+            css: '  c-hblack __model  mb-0005 rad-05 prm-t-h sec-t',
+            ico_css: 'c-tgray',
+
+        }, 'itemExpand', '/src/coms/');
+
+        if (!loader)
+            _saveSetup();
+        else if (_models[id] && _models[id].path && !_models[id].sload) {
+            _$$modelLoader(_models[id]);
+        }
+
+    };
+
+    var cam_tar = { x: 0, y: 0, z: 0, a: 0.5, b: 0.5, r: 5 };
+    var camMoveW = {
+        steps: 0.01,
+        start: 0.,
+        tar: 0.,
+        go: function (v) { camMoveW.tar = v; },
+        fun: function (v) {
+
+            if (v < 0.99) {
+                main3D.camera.alpha = (main3D.camera.alpha * (1. - v) + cam_tar.a * v);
+                main3D.camera.beta = (main3D.camera.beta * (1. - v) + cam_tar.b * v);
+                main3D.camera.radius = (main3D.camera.radius * (1. - v) + cam_tar.r * v);
+                main3D.camera._currentTarget.x = (main3D.camera._currentTarget.x * (1. - v) + cam_tar.x * v);
+                main3D.camera._currentTarget.y = (main3D.camera._currentTarget.y * (1. - v) + cam_tar.y * v);
+                main3D.camera._currentTarget.z = (main3D.camera._currentTarget.z * (1. - v) + cam_tar.z * v);
+            }
+
+            if (v == 1) camMoveW.start = 0;
+
+        }
+    }; 
+    var _$$TID_modelSelect = function (th) { 
+
+        var iden = !th ? _sel_model : th.id.split('_')[1].valueOf() * 1;
+
+        all('.__model', function (at) {
+            at.classList.remove('c-inavy');
+        }, function () {
+
+            if (_sel_model == iden) {
+                _sel_model = 0;
+
+                first('.modelSlide').style.left = '0%';
+             
+                first('.back_$$TID').classList.add('hdn-i');
+                first('.modelSlide .properties_$$TID ').innerHTML = '';
+            }
+            else {
+                _sel_model = iden;
+                th.parentNode.parentNode.parentNode.classList.add('c-inavy');
+               
+                first('.modelSlide').style.left = '-100%';
+                first('.back_$$TID').classList.remove('hdn-i');
+
+                _modelGlbCall(th); 
+            }
+
+        });
+
+    }
+
+
+    _$$TID_hideshow = function (th, key) {
+
+        if (!_meshMatMap[key]) _meshMatMap[key] = {};
+        _meshMatMap[key].hide = !_meshMatMap[key].hide;
+        _meshRef[key].visibility = _meshMatMap[key].hide ? 0 : 1;
+        _saveSetup();
+
+    };
+    _$$TID_camview = function (th, key) {
+
+        if (!_meshMatMap[key]) _meshMatMap[key] = {};
+        _meshMatMap[key].cam = {
+            a: main3D.camera.alpha,
+            b: main3D.camera.beta,
+            r: main3D.camera.radius,
+            x: main3D.camera._currentTarget.x,
+            y: main3D.camera._currentTarget.y,
+            z: main3D.camera._currentTarget.z,
+        };
+        _saveSetup();
+
+    };
+    _$$TID_name = function (th, key) {
+        if (!_meshMatMap[key]) _meshMatMap[key] = {};
+        _meshMatMap[key].name = th.value;
+        _saveSetup();
+    };
+
+    _$$TID_hover = function (th, key) {
+        if (_meshRef[key] && _meshRef[key].material && _meshRef[key].material.flagUp)
+            _meshRef[key].material.flagUp(2);
+
+    };
+    _$$TID_out = function (th, key) {
+        if (_meshRef[key] && _meshRef[key].material && _meshRef[key].material.flagUp)
+            _meshRef[key].material.flagDown(2);
+
+    };
+
+    var glbItemLoad = [];
+
+    var _$$modelLoader = function (mdl) {
+
+        console.log(mdl);
+
+        if (glbItemLoad[mdl.path]) return false;
+
+        glbItemLoad[mdl.path] = true;
+
+        var value = mdl.path;
+        var rootId = mdl.iden;
+        if (mdl.rmrPath) value = uc(mdl.rmrPath);
+
+        var ext = value.split('.')[value.split('.').length - 1];
+        var name = value.replace('.' + ext, '').split('/');
+        name = name[name.length - 1];
+
+        var itmLoad = name + '.' + ext;
+
+        if (ext == 'glb') {
+
+            loadGlbSampleModel(main3D.scene, db_api_file+'/files/', name + '.' + ext, function (meshes) {
+
+                var mesh = new BABYLON.Mesh(main3D.scene);
+
+                for (var i in meshes) {
+
+                    var id = ++_model_iden;
+                    meshes[i].iden = id;
+                    meshes[i].ref = rootId + '~' + meshes[i].name;
+                    _meshRef[rootId + '~' + meshes[i].name] = meshes[i]; 
+
+                }
+
+                function parentApply(m, meshes) {
+
+                    if (m.parent && !m.parent.iden) {
+                        var id = ++_model_iden;
+                        m.parent.iden = id;
+                        m.parent.isGroup = true;
+                        meshes.push(m.parent);
+
+                        parentApply(m.parent, meshes);
+                    }
+
+                }
+
+                for (var i in meshes) {
+
+                    parentApply(meshes[i], meshes);
+
+                }
+
+
+                for (var i in meshes) {
+                    i = meshes[i];
+
+                    var hid = false;
+                    var hcam = false;
+
+                    if (i && !i.isGroup && i.material) {
+
+                        i.material = r_mur.pbrMaterial(_meshMatMap[i.ref] && _meshMatMap[i.ref].mat ? _materials[_meshMatMap[i.ref].mat] : {}, main3D.scene);
+
+                        if (_meshMatMap[i.ref] && _meshMatMap[i.ref].hide) {
+                            i.visibility = 0;
+                            hid = 1;
+                        }
+
+                        if (_meshMatMap[i.ref] && _meshMatMap[i.ref].cam) {
+                            hcam = true;
+                        }
+
+
+                    }
+
+                    dyHtml.append(first('#subs_' + (mdl.iden)), {
+                        iden: i.iden, type: 2, val: rootId + '~' + i.name,
+                        click: (i.isGroup || i._children ? '_$$TID_rootClick(this)' : '_$$TID_meshClick(this,' + rootId + ');'),
+                        change: '_$$TID_change( this);',
+                        action: ' _$$TID_modelSelect(this);',
+                        icon: i.isGroup ? 'line_start_circle' : 'deployed_code', text: i.name,
+                        css: (i.isGroup ? '' : 'pl-00125') + '  c-hblack _model_mesh  mb-0005 rad-05 prm-t-h sec-t',
+                        ico_css: i.isGroup ? 'c-twgray' : 'hdn-i ',
+                        sub_css: 'pt-00 pl-0005  ml-0005  c-b-itrans c-b-i-hwgray ',
+                        tact1: 'hide / show model',
+                        tact2: 'set camera view',
+                        tact3: 'apply group name',
+                        act1: `_$$TID_hideshow( this,'` + rootId + '~' + i.name + `');`,
+                        act2: `_$$TID_camview( this,'` + rootId + '~' + i.name + `');`,
+                        ac1_css: hid ? ' c-iblue' : '',
+                        ac2_css: hcam ? ' c-iblue' : '',
+                        act3: `_$$TID_name( this,'` + rootId + '~' + i.name + `');`,
+                        hover: `_$$TID_hover( this,'` + rootId + '~' + i.name + `');`,
+                        out: `_$$TID_out( this,'` + rootId + '~' + i.name + `');`,
+                        txtval: _meshMatMap[rootId + '~' + i.name] ? _meshMatMap[rootId + '~' + i.name].name : ''
+
+
+                    }, i._children && i._children.length > 0. ? 'itemExpand' : 'item', '/src/coms/');
+
+
+                }
+
+                setTimeout(() => {
+
+                    for (var i in meshes) {
+
+                        if (meshes[i] && meshes[i].parent && first('#subs_' + meshes[i].parent.iden)) {
+
+                         if(first('#subs_' + meshes[i].parent.iden) && first('#iden_' + meshes[i].iden))
+                            first('#subs_' + meshes[i].parent.iden).appendChild(first('#iden_' + meshes[i].iden).parentNode);
+
+                        }
+                    }
+
+                    first('.wait').classList.remove('fadeIn');
+                    first('.wait').classList.add('fadeOut');
+                    glb_Loader = [];
+                    setTimeout(function () {
+
+
+                        first('.wait').classList.add('hdn-i');
+                        //_loadIcons();
+                    }, 300);
+
+
+                }, 200);
+
+
+                meshes[0].parent = mesh;
+                mesh.scaling.x *= def(mdl.scale,10.);
+                mesh.scaling.y *= def(mdl.scale,10.);
+                mesh.scaling.z *= def(mdl.scale,10.);
+                /*
+               mesh.rotation.x = 0.;
+               mesh.rotation.y = 180.*deg;
+               mesh.rotation.z = 0.;   */
+
+
+            });
+        }
+
+
+        if (ext == 'rmr') {
+            dn({
+                url: value,
+                type: 'GET',
+                success: function (d) {
+
+                    var st = JSON.parse(d);
+
+
+                    for (var i in st) {
+
+                        if (st[i] && st[i].face && st[i].mode != "helperFace" && !st[i].deleted) {
+
+                            st[i].name = st[i].name.trim()
+
+                            var   hcam = false;
+                             var hid = false;
+
+
+
+                            var mesh = {};
+
+                            if (st[i].mode == 'nurbs')
+                                mesh = r_mur.call.nurbs(main3D, st[i], st);
+                            else if (st[i].mode ==  'surface')
+                                mesh = r_mur.call.surface(main3D, st[i], st);
+
+                                mesh.name = st[i].name.trim();
+                            mesh.iden = ++_model_iden;;
+                            mesh.ref = rootId + '~' + mesh.name.trim();
+                            _meshRef[rootId + '~' + mesh.name.trim()] = mesh;
+ 
+                            
+                               mesh.material =  r_mur.pbrMaterial(_meshMatMap[mesh.ref] && _meshMatMap[mesh.ref].mat ? _materials[_meshMatMap[mesh.ref].mat] : {}, main3D.scene);
+                               if(mesh.mirror)
+                                 mesh.mirror.material = mesh.material;
+
+                         
+                        if (_meshMatMap[mesh.ref] && _meshMatMap[mesh.ref].hide) {
+                            mesh.visibility = 0;
+                           if(mesh.mirror)
+                            mesh.mirror.visibility = 0;
+                            hid = 1;
+                        }
+
+                        if (_meshMatMap[mesh.ref] && _meshMatMap[mesh.ref].cam) {
+                            hcam = true;
+                        } 
+
+                           
+                            dyHtml.append(first('#subs_' + (mdl.iden)), {
+                                iden: i.iden, type: 2, val: rootId + '~' + st[i].name,
+                                click: (i.isGroup || i._children ? '_$$TID_rootClick(this)' : '_$$TID_meshClick(this,' + rootId + ');'),
+                                change: '_$$TID_change( this);',
+                                action: ' _$$TID_modelSelect(this);',
+                                icon: i.isGroup ? 'line_start_circle' : 'deployed_code', text: st[i].name,
+                                css: (i.isGroup ? '' : 'pl-00125') + '  c-hblack _model_mesh  mb-0005 rad-05 prm-t-h sec-t',
+                                ico_css: i.isGroup ? 'c-twgray' : 'hdn-i ',
+                                sub_css: 'pt-00 pl-0005  ml-0005  c-b-itrans c-b-i-hwgray ',
+                                tact1: 'hide / show model',
+                                tact2: 'set camera view',
+                                tact3: 'apply group name',
+                                act1: `_$$TID_hideshow( this,'` + rootId + '~' + st[i].name.trim()+ `');`,
+                                act2: `_$$TID_camview( this,'` + rootId + '~' + st[i].name.trim() + `');`,
+                                ac1_css: hid ? ' c-iblue' : '',
+                                ac2_css: hcam ? ' c-iblue' : '',
+                                act3: `_$$TID_name( this,'` + rootId + '~' + st[i].name.trim() + `');`,
+                                hover: `_$$TID_hover( this,'` + rootId + '~' + st[i].name.trim() + `');`,
+                                out: `_$$TID_out( this,'` + rootId + '~' + st[i].name.trim() + `');`,
+                                txtval: _meshMatMap[rootId + '~' + st[i].name.trim()] ? _meshMatMap[rootId + '~' + st[i].name].name : ''
+
+                            }, 'item', '/src/coms/');
+
+                        }
+
+
+                    }
+
+
+
+                }
+            })
+
+        }
+    }
+
+    var _selectedMeshes = function (fn, param) {
+        var res = all('._model_mesh.c-iwgray2');
+        for (var i in res) {
+
+            if (_meshRef[res[i].title])
+                fn(_meshRef[res[i].title], param, res[i].title);
+        }
+    }
+
+    var _$$TID_rootClick = function (th) {
+
+        if (main3D.scene.KeyShift) {
+            all('._model_mesh', function (at1) {
+                at1.classList.toggle('c-iwgray2');
+
+            }, null, null, th);
+        }
+        else {
+
+            all('._model_mesh', function (at) {
+                at.classList.remove('c-iwgray2');
+
+            }, function () {
+
+                all('._model_mesh', function (at1) {
+                    at1.classList.add('c-iwgray2');
+
+                }, null, null, th);
+            });
+
+        }
+
+
+    };
+
+    var _$$TID_meshClick = function (th, root) {
+
+        var iden = th.id.split('_')[1].valueOf() * 1;
+
+        if (main3D.scene.KeyShift) {
+            th.classList.toggle('c-iwgray2');
+
+        } else {
+            all('._model_mesh', function (at) {
+                at.classList.remove('c-iwgray2');
+            }, function () {
+
+                if (_meshMatMap[th.title] && _meshMatMap[th.title].cam) {
+
+                    console.log(1);
+
+                    cam_tar = _meshMatMap[th.title].cam;
+                    camMoveW.start = 0.05;
+                    camMoveW.go(1);
+                }
+
+                th.classList.add('c-iwgray2');
+            });
+        }
+
+
+
+    };
+
+    var _modelGlbCall = function (th) {
+
+        var iden = th.id.split('_')[1].valueOf() * 1;
+
+        _models[iden] = def(_models[iden], {});
+
+        var _form = {
+            PID: iden,
+            path: '/src/coms/',
+            page: 'json',
+            css: 'w-full f f-c f-at f-ct f-js',
+            items: {
+
+                bt1: {
+                    title: ' model manager id :' + iden,
+                    item: 4,
+                },
+                base: {
+                    title: 'base',
+                    doctype: 'categories',
+                    img_css: 'h-i-0125 ',
+                    input: function (value) {
+                        _models[iden].path = value;
+
+                        _$$modelLoader(_models[iden]);
+                        _saveSetup();
+                    },
+                    value:'glb',
+                    ext: 'glb',
+                    item: 6,
+                },
+
+                rmr: {
+                    title: 'armur',
+                    doctype: 'categories',
+                    img_css: 'h-i-0125 ',
+                    input: function (value) {
+                        _models[iden].rmrPath = value;
+
+                        _$$modelLoader(_models[iden]);
+                        _saveSetup();
+                    },
+                    value: def(_models[iden].base, ' '),
+                    ext: 'rmr',
+                    item: 6,
+                },
+
+                group: {
+                    title: 'group',
+                    type: 'input',
+
+                    inp_css: 'cwhite  ba-i-01 c-b-iwgray rad-03 fs-04 p-0005',
+                    input: function (value) {
+
+                        _models[iden].group = value;
+                        _saveSetup();
+
+                    },
+                    value: def(_models[iden].group, '')
+                },
+                refname: {
+                    title: 'model ref name',
+                    type: 'input',
+
+                    inp_css: 'cwhite ba-i-01 c-b-iwgray rad-03 fs-04 p-0005',
+                    input: function (value) {
+
+                        _models[iden].refname = value;
+                        _saveSetup();
+
+                    },
+                    value: def(_models[iden].refname, '')
+                },
+                scale: {
+                    title: 'scale',
+                    type: 'input', 
+                    inp_css: 'cwhite  ba-i-01 c-b-iwgray rad-03 fs-04 p-0005',
+                    input: function (value) {
+
+                        _models[iden].scale = value;
+                        _saveSetup();
+
+                    },
+                    value: def(_models[iden].scale, '')
+                },
+                stopPreload: {
+
+                    title: 'stop load at fisrt',
+                    item: 5,
+                    input: function (value) {
+                        _models[iden].sload = value;
+                        _saveSetup();
+
+
+                    },
+                    value: (_models[iden].sload ? 'done_outline' : 'cancel')
+
+                },
+            }
+        };
+
+
+        dyHtml.loader(first('.modelSlide .properties_$$TID '), _form);
+
+
+    };
+
+</script>

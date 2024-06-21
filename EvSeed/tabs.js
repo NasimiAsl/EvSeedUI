@@ -981,7 +981,7 @@ flex-direction: row;
                     first('#frame_$$TID').src = '';
                     first('#frame_$$TID').src = src; 
                 }
-                _meshRef['1~Box001'][0].material.setTexture('txtRef_1', new BABYLON.Texture(im.src, main3D.scene));
+                _meshRef['1~Box001'][0].material.setTexture('txtRef_2', new BABYLON.Texture(im.src, main3D.scene));
                 first('.waitDesign').classList.add('hdn-i');
             });
         }

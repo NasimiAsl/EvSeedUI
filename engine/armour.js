@@ -68,80 +68,14 @@ armour.prototype = {
     },
     pbrMaterial: function (op, scene) {
 
-        if (window.SecMaterial) {
-
-            var shad = new BABYLONX.ShaderBuilder()
-                .SetUniform('_AR_set', 'vec4')
-                .Func(function (me) {
-                    me.Setting.FragmentWorld = true;
-                    me.Setting.VertexWorld = true;
-                    me.Setting.Look = true;
-
-                    me.InLine(` float alpha = 1.0;vec3 ref= vec3(0.);
-                    vec3 wps = vec4(world*vec4(pos,1.)).xyz;
-                    vec3 wnm = r_y(nrm , _AR_set.x*2.,vec3(0.));  `);
-
-
-                    if (op.trans) {
-                        me = me
-                            .Map({ path: '/images/5b9To6N.jpeg' })
-                            .Transparency()
-                            .InLine(reflectPart(
-                                'txtRef_0', 'vec3(0.,0.,1.)'
-                                , 1.0015  ,  1.01+'+_AR_set.x*0.01', 1.,  1.,  1., 0.))
-                            .InLine('ref = result.xyz;')
-                            .InLine('   alpha = min(0.8,length(ref));');
-
-                    }
-
-                    return me;
-                })
-                .VertexShader(`
-
-            float sjx  = pos.x>0.?1.0:-1.0; 
-           
-            if(pos.y+1350.5 >0.){
-
-                pos = r_z(pos,-10.*sjx,vec3(sjx*1580.,-1350.,850.));
-
-            }
-
-            result = vec4(pos,1.);
-
-            `).Map({ path: '/Images/sss.jpeg' }).Effect({ pr: 'pow(pr,2.)*1.25' })
-                .InLine(` 
-
-            vec3 res = result.xyz;
-
-            bool ld = pos.y+1250.5 >0. && pos.x >0.;
-            bool rd = pos.y+1250.5 >0. && pos.x <0.;
-            bool templ = pos.y-550.5 >0.  ;
-             
-            if(templ || (_AR_set.x >5. && ld) || (_AR_set.x <-5. && rd)){
-                discard;
-            }
-
-            // float l = 1.-min(1.,length(pos-vec3(1580.,-1350.,850.))/300.);
-           
-            float dt = 1.-dot(wnm,normalize( wps-camera));
-
-            result = vec4(res*0.5 + res*dt*0.5 + dt*0.25,alpha);
-            if(alpha<1.0) result = vec4(ref,alpha*0.5);
-            
-            `).BuildMaterial(scene);
-
-            shad.setVector4('_AR_set', { x: 0, y: 0, z: 0, w: 0. });
-            shad.isARModel = 1;
-
-            return shad;
-
-        }
+        
 
         var mat = function (me, op) {
 
             me
-                .SetUniform('_uvsr', 'vec4')
-                .SetUniform('_bs_color', 'vec4')
+            .SetUniform('_uvsr', 'vec4')
+            .SetUniform('_uvpo', 'vec4')
+            .SetUniform('_bs_color', 'vec4')
                 .SetUniform('_fs_color', 'vec4')
                 .SetUniform('lightDir', 'vec4')
                 .SetUniform('_ps_set', 'vec4')
@@ -254,7 +188,7 @@ armour.prototype = {
             vec3 _amb = vec3(0.);
             vec4 _ref = vec4(0.,0.,0.,0.);
             vec3 _psf = vec3(0.0); /*phonge,specular,fresnel*/
-            vec2 nUv = r_y(vec3(vuv.x*_uvsr.x,0.,vuv.y*_uvsr.y),_uvsr.z,vec3(0.5)).xz;
+            vec2 nUv = r_y(vec3(vuv.x*_uvsr.x+_uvpo.x,0.,vuv.y*_uvsr.y+_uvpo.y),_uvsr.z,vec3(0.5)).xz;
             
             `);
 
@@ -321,7 +255,7 @@ armour.prototype = {
 
             if (op.disp && op.disp.indexOf('none.svg') == -1) {
 
-                me.Map({ alpha: 1, path: uc(op.disp), uv: 'vec2(nUv)' }).InLine(`
+                me.Map({ alpha: 1, path: uc(op.disp), uv: 'vec2(nUv*float( _uvsr.w))' }).InLine(`
                 
                 _disp  = result ; 
 
@@ -366,7 +300,7 @@ armour.prototype = {
             if (op.lightMap) {
 
             } 
-              me.Map({ alpha: 1, path: '/images/none.svg', uv: 'vec2(vuv*vec2(float('+(__Data.uvMap? __Data.uvMap.u:1.0)+')*1.0,float('+(__Data.uvMap? __Data.uvMap.v:1.0)+')*1.0))' }).InLine(`
+              me.Map({ alpha: 1, path: '/images/none.svg', uv: 'vec2(vuv*vec2(float('+(window.__Data && window.__Data.uvMap? window.__Data.uvMap.u:1.0)+')*1.0,float('+(window.__Data && window.__Data.uvMap? window.__Data.uvMap.v:1.0)+')*1.0))' }).InLine(`
                  
                 vec4 l1 = result ; 
                 `);
@@ -395,8 +329,10 @@ armour.prototype = {
             + _psf.y+ 0.75* ( _psf.z*_sc_color*(_bs_color.xyz*(_fr_set.w)+(1.-_fr_set.w) *_psf.x) )
             ,alpha ); 
             
-            result.xyz = mix(result.xyz,l1.xyz*(0.5+0.4*(_ps_set.x+_ps_set.y*_def_dt)),l1.w);
- 
+            result.xyz = mix(result.xyz,   l1.xyz*(0.9+0.2*mix(_psf.x*0.75+0.25,1.,1.-length(l1.xyz)))  ,l1.w);
+
+            
+            
             `)
                 .Event(2, 'result.xyz = result.xyz*0.75 +vec3(1.0,0.,0.)*0.25;')
                 .Event(3, 'result.xyz = result.xyz*0.75 +vec3(1.0,0.5,0.)*0.25;')
@@ -449,10 +385,17 @@ armour.prototype = {
             var uvs = {
                 x: def(op.uvsx, 1).valueOf() * 1.0,
                 y: def(op.uvsy, 1).valueOf() * 1.0,
-                z: def(op.uvr, 0).valueOf() * 1.0, w: 1
+                z: def(op.uvr, 0).valueOf() * 1.0, w: def(op.uvsnxy, 1.0).valueOf() * 1.0
+            };
+
+            var uvp = {
+                x: def(op.uvpx, 1).valueOf() * 1.0,
+                y: def(op.uvpy, 1).valueOf() * 1.0,
+                z:  1.0, w:  1.0
             };
 
             this.setVector4('_uvsr', uvs);
+            this.setVector4('_uvpo', uvp);
             this.setVector4('_bs_color', {
                 x: color.r,
                 y: color.g,

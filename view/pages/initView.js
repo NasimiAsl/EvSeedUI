@@ -86,7 +86,7 @@ local = {
                 && my_List_id.indexOf('#comma' + currModelIden + '_') == -1
                 && my_List_id.indexOf(location.search.replace('?', '#comma') + '_') == -1) {
                 console.log('please join with admin and work on your area.');
-                location = '/setup';
+                location = '/setup';  
             }
 
 

@@ -39,7 +39,7 @@
         first('.images').innerHTML = '';
 
        
-        _meshRef['1~Box001'][0].material.setTexture('txtRef_1', new BABYLON.Texture('/images/none.svg', main3D.scene));
+        _meshRef['1~Box001'][0].material.setTexture('txtRef_2', new BABYLON.Texture('/images/none.svg', main3D.scene));
 
         if( first('#frame_$$TID')  ){
             
@@ -62,10 +62,9 @@
 
         saveDesign(); 
 
-
         ShowPdf(db_api_file + d, function (im) {
            
-            _meshRef['1~Box001'][0].material.setTexture('txtRef_1', new BABYLON.Texture(im.src, main3D.scene));
+            _meshRef['1~Box001'][0].material.setTexture('txtRef_2', new BABYLON.Texture(im.src, main3D.scene));
             first('.waitDesign').classList.add('hdn-i');
             var src = first('#frame_$$TID').src;
                     first('#frame_$$TID').src = '';
@@ -82,9 +81,9 @@
         cv.width = size;
         cv.height = size;
 
-          var cx = cv.getContext('2d');
-
-         cx.clearRect(0, 0, size, size);
+        var cx = cv.getContext('2d');
+ 
+        //cx.clearRect(0, 0, size, size);
 
           var w1 = size; 
 
@@ -145,6 +144,7 @@
                     var renderContext = {
                         canvasContext: context,
                         transform: transform,
+                        background: 'rgba(0,0,0,0)',
                         viewport: viewport
                     };
 
@@ -177,8 +177,8 @@
                     first('.images').appendChild(img);
 
                     setTimeout(function () {
-                        img.src = canvas.toDataURL("image/jpeg", 0.8);
-                    }, 100);
+                        img.src = canvas.toDataURL("image/png", 0.8);
+                    }, 500);
                 }
 
 
